@@ -1,0 +1,22 @@
+{
+  "name": "skdsm",
+  "version": "1.0.0",
+  "description": "REST server for Steel Kiwi Dev Skill Managment System",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://git.steelkiwi.com/changli/skd-sm.git"
+  },
+  "author": "Alexander Changli",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.14.1"
+  },
+  "devDependencies": {
+    "nodemon": "^1.11.0"
+  }
+}
