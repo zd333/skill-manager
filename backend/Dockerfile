@@ -1,9 +1,8 @@
 FROM node:argon
-RUN mkdir /app
-WORKDIR /app/src
-COPY package.json /app
+RUN mkdir /backend-dist
+COPY . /backend-dist
+WORKDIR /backend-dist
 RUN npm install
-WORKDIR /app/src
-COPY . /app
+WORKDIR /backend-dist/src
 EXPOSE 3042
 CMD ["npm", "start"]
