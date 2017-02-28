@@ -17,12 +17,12 @@ module.exports = (passport, db) => {
   passport.use(new GoogleStrategy({
     clientID: authConfig.clientID,
     clientSecret: authConfig.clientSecret,
-    callbackURL: authConfig.callbackURL,
+    callbackURL: authConfig.callbackURL
   }, (token, refreshToken, profile, done) => {
-      // TODO: this async looks like bool shit, clarify and refactor
-      // Make the code asynchronous
-      process.nextTick(() => {
-        console.log(profile);
-      });
-    }));
+    // TODO: this async looks like bool shit, clarify and refactor
+    // Make the code asynchronous
+    process.nextTick(() => {
+      console.log(profile);
+    });
+  }));
 };

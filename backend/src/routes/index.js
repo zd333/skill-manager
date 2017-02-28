@@ -8,4 +8,4 @@ const routes = [
 module.exports = (app, db) => {
   // Activate all routes
   routes.forEach(route => route(app, db));
-}
+};

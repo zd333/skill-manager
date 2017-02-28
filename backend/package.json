@@ -29,11 +29,14 @@
       "ecmaVersion": 6
     },
     "rules": {
+        "indent": ["error", 2, {
+            "SwitchCase": 1
+        }],
         "linebreak-style": ["error", "unix"],
         "semi": ["error", "always"],
         "no-warning-comments": 0,
         "camelcase": 0,
-        "babel/object-curly-spacing": 0
+        "object-curly-spacing": 0
     },
     "extends": [
       "xo-space/esnext"

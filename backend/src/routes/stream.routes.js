@@ -15,7 +15,7 @@ module.exports = (app, db) => {
     }).toArray((err, docs) => {
       if (err) {
         errorHandler(res, {
-          'non_filed_errors': ['Failed to get streams.']
+          non_filed_errors: ['Failed to get streams.']
         });
       } else {
         res.status(200).json(docs);
@@ -38,11 +38,11 @@ module.exports = (app, db) => {
     }, (err, doc) => {
       if (err) {
         errorHandler(res, {
-          'non_filed_errors': ['Failed to create new stream.']
+          non_filed_errors: ['Failed to create new stream.']
         });
       } else {
         res.status(201).json(doc.ops[0]);
       }
     });
   });
-}
+};

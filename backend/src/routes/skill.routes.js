@@ -1,7 +1,7 @@
 'use strict';
 
 const errorHandler = require('./error-handler');
-const skillCollection = require('../config/db.config').collectionNames.skills;
+const skillsCollection = require('../config/db.config').collectionNames.skills;
 
 module.exports = (app, db) => {
   /*  '/api/v1/skills'
@@ -16,17 +16,15 @@ module.exports = (app, db) => {
         $regex: searchQuery ? searchQuery : '',
         $options: 'i'
       }
-    }, {
-        _id: 0
-      }).toArray((err, docs) => {
-        if (err) {
-          errorHandler(res, {
-            'non_filed_errors': ['Failed to get skills.']
-          });
-        } else {
-          res.status(200).json(docs);
-        }
-      });
+    }, { _id: 0 }).toArray((err, docs) => {
+      if (err) {
+        errorHandler(res, {
+          non_filed_errors: ['Failed to get skills.']
+        });
+      } else {
+        res.status(200).json(docs);
+      }
+    });
   });
 
   app.post('/api/v1/skills', (req, res) => {
@@ -44,11 +42,11 @@ module.exports = (app, db) => {
     }, (err, doc) => {
       if (err) {
         errorHandler(res, {
-          'non_filed_errors': ['Failed to create new skill.']
+          non_filed_errors: ['Failed to create new skill.']
         });
       } else {
         res.status(201).json(doc.ops[0]);
       }
     });
   });
-}
+};
