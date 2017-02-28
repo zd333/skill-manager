@@ -3,9 +3,11 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongodb = require('mongodb');
+const passport = require('passport');
 
 const dbConfig = require('./config/db.config');
 const routes = require('./routes');
+const passportConfig = require('./config/passport.config');
 
 const app = express();
 app.use(bodyParser.json());
@@ -19,6 +21,8 @@ mongodb.MongoClient.connect(dbConfig.uri, (err, database) => {
     process.exit(1);
   }
   db = database;
+  passportConfig(passport, db);
+
 
   // Server init
   // TODO: define port via env var
