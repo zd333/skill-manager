@@ -19,5 +19,24 @@
     "nodemon": "^1.11.0",
     "passport": "^0.3.2",
     "passport-google-oauth": "^1.0.0"
+  },
+  "devDependencies": {
+    "eslint-config-xo-space": "^0.15.0",
+    "xo": "^0.17.1"
+  },
+  "eslintConfig": {
+    "parserOptions": {
+      "ecmaVersion": 6
+    },
+    "rules": {
+        "linebreak-style": ["error", "unix"],
+        "semi": ["error", "always"],
+        "no-warning-comments": 0,
+        "camelcase": 0,
+        "babel/object-curly-spacing": 0
+    },
+    "extends": [
+      "xo-space/esnext"
+    ]
   }
 }
