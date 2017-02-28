@@ -7,5 +7,5 @@ const routes = [
 
 module.exports = app => {
   // Activate all routes
-  routes.forEach(route => route(app));
+  routes.forEach(routeActivator => routeActivator(app));
 };

@@ -1,55 +1,38 @@
 'use strict';
 
-const mongoose = require('mongoose');
-
 const errorHandler = require('./error-handler');
-const skillsCollection = require('../config/db.config').collectionNames.skills;
-
-const db = mongoose.connection;
+const Skill = require('../models/skill.model');
 
 module.exports = app => {
-  /*  '/api/v1/skills'
-   *    GET: list of skills
-   *    POST: create new skills
+  /**
+   * '/api/v0/skills'
+   * GET: list of skills
+   * POST: create new skills
    */
-  app.get('/api/v1/skills', (req, res) => {
-    const searchQuery = req.query.q;
+  app.get('/api/v0/skills', (request, response) => {
+    const searchQuery = request.query.q;
     // TODO: check auth
-    db.collection(skillsCollection).find({
+    Skill.find({
       name: {
         $regex: searchQuery ? searchQuery : '',
         $options: 'i'
       }
-    }, { _id: 0 }).toArray((err, docs) => {
-      if (err) {
-        errorHandler(res, {
-          non_filed_errors: ['Failed to get skills.']
-        });
+    }, (error, skills) => {
+      if (error) {
+        errorHandler(response, error);
       } else {
-        res.status(200).json(docs);
+        response.status(200).json(skills);
       }
     });
   });
 
-  app.post('/api/v1/skills', (req, res) => {
+  app.post('/api/v0/skills', (request, response) => {
     // TODO: check auth and permission
-    if (!req.body.name) {
-      errorHandler(res, {
-        name: ['This field is required.']
-      }, 400);
-      return;
-    }
-    // TODO: check unique
-
-    db.collection(skillsCollection).insertOne({
-      name: req.body.name
-    }, (err, doc) => {
-      if (err) {
-        errorHandler(res, {
-          non_filed_errors: ['Failed to create new skill.']
-        });
+    Skill.create(request.body, (error, created) => {
+      if (error) {
+        errorHandler(response, error, 400);
       } else {
-        res.status(201).json(doc.ops[0]);
+        response.status(201).json(created);
       }
     });
   });

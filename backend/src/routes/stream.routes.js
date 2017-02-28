@@ -1,41 +1,32 @@
 'use strict';
 
-const mongoose = require('mongoose');
-
 const errorHandler = require('./error-handler');
-const streamsCollection = require('../config/db.config').collectionNames.streams;
-
 const Stream = require('../models/stream.model');
 
-const db = mongoose.connection;
-
 module.exports = app => {
-  /*  '/api/v1/streams'
-   *    GET: list of streams
-   *    POST: create new stream
+  /**
+   * '/api/v0/streams'
+   * GET: list of streams
+   * POST: create new stream
    */
-  app.get('/api/v1/streams', (req, res) => {
+  app.get('/api/v0/streams', (request, response) => {
     // TODO: check auth
-    db.collection(streamsCollection).find({}, {
-      _id: 0
-    }).toArray((err, docs) => {
-      if (err) {
-        errorHandler(res, {
-          non_filed_errors: ['Failed to get streams.']
-        });
+    Stream.find({}, (error, streams) => {
+      if (error) {
+        errorHandler(response, error);
       } else {
-        res.status(200).json(docs);
+        response.status(200).json(streams);
       }
     });
   });
 
-  app.post('/api/v1/streams', (req, res) => {
+  app.post('/api/v0/streams', (request, response) => {
     // TODO: check auth and permission
-    Stream.create(req.body, (error, created) => {
+    Stream.create(request.body, (error, created) => {
       if (error) {
-        errorHandler(res, error, 400);
+        errorHandler(response, error, 400);
       } else {
-        res.status(200).json(created);
+        response.status(201).json(created);
       }
     });
   });
