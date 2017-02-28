@@ -1,7 +1,7 @@
 'use strict';
 
-const errorHandler = require('./error-handler');
-const Stream = require('../models/stream.model');
+const errorHandler = require('../common/error-handler');
+const Stream = require('./stream.model');
 
 module.exports = app => {
   /**

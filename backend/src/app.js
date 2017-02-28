@@ -3,10 +3,10 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-// const passport = require('passport');
 
 const config = require('./config/app.config');
-const routes = require('./routes');
+const routesActivator = require('./common/routes');
+const authActivator = require('./auth/passport');
 
 const app = express();
 app.use(bodyParser.json());
@@ -19,10 +19,10 @@ mongoose.connect(config.db.uri, error => {
   }
 });
 
-// Init server
+authActivator(app);
+
 const server = app.listen(config.server.port, () => {
   console.log(`SKD SM server now running on port ${server.address().port}`);
-  // Activate routes
-  routes(app);
+  routesActivator(app);
 });
 

@@ -1,8 +1,8 @@
 'use strict';
 
 const routes = [
-  require('./stream.routes'),
-  require('./skill.routes')
+  require('../streams/stream.routes'),
+  require('../skills/skill.routes')
 ];
 
 module.exports = app => {

@@ -1,7 +1,7 @@
 'use strict';
 
-const errorHandler = require('./error-handler');
-const Skill = require('../models/skill.model');
+const errorHandler = require('../common/error-handler');
+const Skill = require('./skill.model');
 
 module.exports = app => {
   /**

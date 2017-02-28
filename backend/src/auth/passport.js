@@ -1,28 +1,29 @@
 'use strict';
 
+const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 
-const authConfig = require('./auth.config');
+const config = require('../config/app.config');
 
-module.exports = passport => {
+module.exports = app => {
   passport.serializeUser((user, done) => {
+    console.log('************user', user);
     done(null, user.id);
   });
 
   passport.deserializeUser((id, done) => {
     // TODO: get from db and pass to done
+    console.log('*********user id', id);
     done(null, {});
   });
 
-  passport.use(new GoogleStrategy({
-    clientID: authConfig.clientID,
-    clientSecret: authConfig.clientSecret,
-    callbackURL: authConfig.callbackURL
-  }, (token, refreshToken, profile, done) => {
-    // TODO: this async looks like bool shit, clarify and refactor
-    // Make the code asynchronous
-    process.nextTick(() => {
-      console.log(profile);
-    });
+  passport.use(new GoogleStrategy(config.auth.google, (token, refreshToken, profile, done) => {
+    console.log('********token', token);
+    console.log('********refreshToken', refreshToken);
+    console.log('********profile', profile);
+    done({}, profile);
   }));
+
+  app.use(passport.initialize());
+  app.use(passport.session());
 };
