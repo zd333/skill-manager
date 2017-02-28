@@ -1,9 +1,15 @@
 'use strict';
 
+const mongoose = require('mongoose');
+
 const errorHandler = require('./error-handler');
 const streamsCollection = require('../config/db.config').collectionNames.streams;
 
-module.exports = (app, db) => {
+const Stream = require('../models/stream.model');
+
+const db = mongoose.connection;
+
+module.exports = app => {
   /*  '/api/v1/streams'
    *    GET: list of streams
    *    POST: create new stream
@@ -25,23 +31,11 @@ module.exports = (app, db) => {
 
   app.post('/api/v1/streams', (req, res) => {
     // TODO: check auth and permission
-    if (!req.body.name) {
-      errorHandler(res, {
-        name: ['This field is required.']
-      }, 400);
-      return;
-    }
-    // TODO: check unique
-
-    db.collection(streamsCollection).insertOne({
-      name: req.body.name
-    }, (err, doc) => {
-      if (err) {
-        errorHandler(res, {
-          non_filed_errors: ['Failed to create new stream.']
-        });
+    Stream.create(req.body, (error, created) => {
+      if (error) {
+        errorHandler(res, error, 400);
       } else {
-        res.status(201).json(doc.ops[0]);
+        res.status(200).json(created);
       }
     });
   });

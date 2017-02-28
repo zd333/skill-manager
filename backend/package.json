@@ -15,7 +15,7 @@
   "dependencies": {
     "body-parser": "^1.15.2",
     "express": "^4.14.1",
-    "mongodb": "^2.2.21",
+    "mongoose": "^4.8.5",
     "nodemon": "^1.11.0",
     "passport": "^0.3.2",
     "passport-google-oauth": "^1.0.0"
@@ -29,14 +29,24 @@
       "ecmaVersion": 6
     },
     "rules": {
-        "indent": ["error", 2, {
-            "SwitchCase": 1
-        }],
-        "linebreak-style": ["error", "unix"],
-        "semi": ["error", "always"],
-        "no-warning-comments": 0,
-        "camelcase": 0,
-        "object-curly-spacing": 0
+      "indent": [
+        "warn",
+        2,
+        {
+          "SwitchCase": 1
+        }
+      ],
+      "linebreak-style": [
+        "error",
+        "unix"
+      ],
+      "semi": [
+        "error",
+        "always"
+      ],
+      "no-warning-comments": 0,
+      "camelcase": 0,
+      "object-curly-spacing": 0
     },
     "extends": [
       "xo-space/esnext"

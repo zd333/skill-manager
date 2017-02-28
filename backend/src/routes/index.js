@@ -5,7 +5,7 @@ const routes = [
   require('./skill.routes')
 ];
 
-module.exports = (app, db) => {
+module.exports = app => {
   // Activate all routes
-  routes.forEach(route => route(app, db));
+  routes.forEach(route => route(app));
 };

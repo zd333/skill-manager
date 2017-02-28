@@ -1,9 +1,13 @@
 'use strict';
 
+const mongoose = require('mongoose');
+
 const errorHandler = require('./error-handler');
 const skillsCollection = require('../config/db.config').collectionNames.skills;
 
-module.exports = (app, db) => {
+const db = mongoose.connection;
+
+module.exports = app => {
   /*  '/api/v1/skills'
    *    GET: list of skills
    *    POST: create new skills

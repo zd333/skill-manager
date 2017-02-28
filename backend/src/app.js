@@ -1,8 +1,8 @@
 'use strict';
 
 const express = require('express');
+const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const mongodb = require('mongodb');
 const passport = require('passport');
 
 const dbConfig = require('./config/db.config');
@@ -12,24 +12,23 @@ const passportConfig = require('./config/passport.config');
 const app = express();
 app.use(bodyParser.json());
 
-// Shared DB connection instance
-let db;
-
-mongodb.MongoClient.connect(dbConfig.uri, (err, database) => {
+mongoose.connect(dbConfig.uri, err => {
   if (err) {
-    console.log(err);
-    process.exit(1);
+    console.log('ERROR connecting to: ' + dbConfig.uri + '. ' + err);
+  } else {
+    console.log('Succeeded connected to: ' + dbConfig.uri);
   }
-  db = database;
-  passportConfig(passport, db);
+});
 
+// Init server
+// TODO: define port via env var
+const server = app.listen(3042, () => {
+  console.log(`SKD SM server now running on port ${server.address().port}`);
 
-  // Server init
-  // TODO: define port via env var
-  const server = app.listen(3042, () => {
-    console.log(`SKD SM server now running on port ${server.address().port}`);
-    // Activate routes
-    routes(app, db);
-  });
+  // Config Google auth
+  passportConfig(passport);
+
+  // Activate routes
+  routes(app);
 });
 
