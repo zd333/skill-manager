@@ -1,6 +1,7 @@
 'use strict';
 
 const errorHandler = require('../common/error-handler');
+const permissions = require('../auth/auth-middleware');
 const Stream = require('./stream.model');
 
 module.exports = app => {
@@ -9,7 +10,7 @@ module.exports = app => {
    * GET: list of streams
    * POST: create new stream
    */
-  app.get('/api/v0/streams', (request, response) => {
+  app.get('/api/v0/streams', permissions(['admin']), (request, response) => {
     // TODO: check auth
     Stream.find({}, (error, streams) => {
       if (error) {
