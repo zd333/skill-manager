@@ -10,7 +10,6 @@ module.exports = app => {
    * POST: Google authentication
    */
   // TODO: replace get with post after SPA is ready
-  // app.post('/api/v0/login/google', passport.authenticate('google', { scope: ['openid email profile'] }));
   app.get('/api/v0/login/google', passport.authenticate('google', { scope: ['email profile'] }));
 
   /**
