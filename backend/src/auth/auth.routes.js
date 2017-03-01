@@ -6,19 +6,24 @@ const passport = require('passport');
 
 module.exports = app => {
   /**
-   * '/api/v0/login'
-   * GET: Google authentication
+   * '/api/v0/login/google'
+   * POST: Google authentication
    */
-  app.get('/api/v0/login', passport.authenticate('google', { scope: ['openid email profile'] }));
+  // TODO: replace get with post after SPA is ready
+  // app.post('/api/v0/login/google', passport.authenticate('google', { scope: ['openid email profile'] }));
+  app.get('/api/v0/login/google', passport.authenticate('google', { scope: ['email profile'] }));
 
   /**
    * '/api/v0/login/google/callback'
    * GET: Google authentication callback
    */
-  app.get('/api/v0/google_callback',
-    passport.authenticate('google', (request, response) => {
-      // Authenticated successfully
-      console.log('Authenticated!!!!!!!!!!!!!!!!!!!!!!!!!!!!!', request);
-      response.status(200).json({message: 'whoa'});
-    }));
+  // TODO: refactor to work with SPA
+  app.get('/api/v0/login/google/callback', passport.authenticate('google', { failureRedirect: '/callback_error' }), (request, response) => {
+    response.redirect('/logged_in');
+  });
+
+  // TODO: remove this stub after SPA auth flow is implemented
+  app.get('/logged_in', (request, response) => {
+    response.status(200).json({whoa: 'whoa!!!'});
+  });
 };
