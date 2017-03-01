@@ -1,17 +1,18 @@
 'use strict';
 
 const errorHandler = require('../common/error-handler');
+const hasPermissions = require('../auth/auth-middleware');
 const Skill = require('./skill.model');
 
 module.exports = app => {
   /**
    * '/api/v0/skills'
-   * GET: list of skills
-   * POST: create new skills
+   * GET: list of skills with optionsl `q` param
+   * POST: create new skill
    */
-  app.get('/api/v0/skills', (request, response) => {
+
+  app.get('/api/v0/skills', hasPermissions([]), (request, response) => {
     const searchQuery = request.query.q;
-    // TODO: check auth
     Skill.find({
       name: {
         $regex: searchQuery ? searchQuery : '',
@@ -26,8 +27,7 @@ module.exports = app => {
     });
   });
 
-  app.post('/api/v0/skills', (request, response) => {
-    // TODO: check auth and permission
+  app.post('/api/v0/skills', hasPermissions(['skillComposer']), (request, response) => {
     Skill.create(request.body, (error, created) => {
       if (error) {
         errorHandler(response, error, 400);

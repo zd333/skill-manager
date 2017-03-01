@@ -1,7 +1,7 @@
 'use strict';
 
 const errorHandler = require('../common/error-handler');
-const permissions = require('../auth/auth-middleware');
+const hasPermissions = require('../auth/auth-middleware');
 const Stream = require('./stream.model');
 
 module.exports = app => {
@@ -10,8 +10,8 @@ module.exports = app => {
    * GET: list of streams
    * POST: create new stream
    */
-  app.get('/api/v0/streams', permissions(['admin']), (request, response) => {
-    // TODO: check auth
+
+  app.get('/api/v0/streams', hasPermissions([]), (request, response) => {
     Stream.find({}, (error, streams) => {
       if (error) {
         errorHandler(response, error);
@@ -21,8 +21,7 @@ module.exports = app => {
     });
   });
 
-  app.post('/api/v0/streams', (request, response) => {
-    // TODO: check auth and permission
+  app.post('/api/v0/streams', hasPermissions(['skillComposer']), (request, response) => {
     Stream.create(request.body, (error, created) => {
       if (error) {
         errorHandler(response, error, 400);
