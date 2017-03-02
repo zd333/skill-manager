@@ -1,13 +1,12 @@
 'use strict';
 
+const errorHandler = require('../common/error-handler');
+
 module.exports = permissions => {
   return (request, response, next) => {
-    console.log(request.user);
     // Not authenticated
     if (!request.user) {
-      return response.status(401).json({
-        error: 'Authentication required'
-      });
+      return errorHandler(response, { message: 'Authentication required' }, 401);
     }
     // No permissions passed (required)
     if (!permissions || !Array.isArray(permissions) || !permissions.length) {
@@ -22,9 +21,7 @@ module.exports = permissions => {
     const missingPermission = permissions
       .find(requiredPermission => request.user.permissions.indexOf(requiredPermission) === -1);
     if (missingPermission) {
-      return response.status(403).json({
-        error: 'You do not have permission to perform this action'
-      });
+      return errorHandler(response, { message: 'You do not have permission to perform this action' }, 403);
     }
     return next();
   };

@@ -2,27 +2,35 @@
 
 const passport = require('passport');
 
-// const errorHandler = require('../common/error-handler');
+const config = require('../config/app.config');
+const errorHandler = require('../common/error-handler');
 
 module.exports = app => {
   /**
-   * '/api/v0/login/google'
-   * POST: Google authentication
+   * Google authentication
    */
   // TODO: replace get with post after SPA is ready
-  app.get('/api/v0/login/google', passport.authenticate('google', { scope: ['email profile'] }));
+  app.get('/api/v0/login/google', (request, response, next) => {
+    passport.authenticate('google', { scope: ['email profile'] }, error => {
+      if (error) {
+        return errorHandler(response, error, 403);
+      }
+      return next();
+    })(request, response, next);
+  });
 
   /**
-   * '/api/v0/login/google/callback'
-   * GET: Google authentication callback
+   * Google authentication callback
    */
-  // TODO: refactor to work with SPA
-  app.get('/api/v0/login/google/callback', passport.authenticate('google', { failureRedirect: '/callback_error' }), (request, response) => {
-    response.redirect('/logged_in');
-  });
-
-  // TODO: remove this stub after SPA auth flow is implemented
-  app.get('/logged_in', (request, response) => {
-    response.status(200).json({whoa: 'whoa!!!'});
-  });
+  app.get('/api/v0/login/google/callback', (request, response, next) => {
+    passport.authenticate('google', {
+      hd: config.auth.google.allowedDomain,
+      prompt: 'select_account'
+    }, error => {
+      if (error) {
+        return errorHandler(response, error, 403);
+      }
+      return next();
+    })(request, response, next);
+  }, (request, response) => response.status(200).json({ message: 'Successfully logged in' }));
 };

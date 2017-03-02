@@ -1,8 +1,6 @@
 'use strict';
 
-module.exports = (response, errorObj, code) => {
-  console.log('API ERROR: ' + JSON.stringify(errorObj));
-  if (response && typeof response.status === 'function') {
-    response.status(code || 500).json({error: errorObj});
-  }
+module.exports = (response, error, code) => {
+  console.log('API ERROR: ' + JSON.stringify(error));
+  return response.status(code || 500).json(error);
 };

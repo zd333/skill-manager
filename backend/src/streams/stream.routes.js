@@ -1,33 +1,31 @@
 'use strict';
 
 const errorHandler = require('../common/error-handler');
-const hasPermissions = require('../auth/auth-middleware');
+const isAuthenticatedAndHasPermissions = require('../auth/auth-middleware');
 const Stream = require('./stream.model');
 
 module.exports = app => {
   /**
-   * '/api/v0/streams'
-   * GET: list of streams
-   * POST: create new stream
+   * List of streams
    */
-
-  app.get('/api/v0/streams', hasPermissions([]), (request, response) => {
+  app.get('/api/v0/streams', isAuthenticatedAndHasPermissions([]), (request, response) => {
     Stream.find({}, (error, streams) => {
       if (error) {
-        errorHandler(response, error);
-      } else {
-        response.status(200).json(streams);
+        return errorHandler(response, error);
       }
+      return response.status(200).json(streams);
     });
   });
 
-  app.post('/api/v0/streams', hasPermissions(['skillComposer']), (request, response) => {
+  /**
+   * Create new stream
+   */
+  app.post('/api/v0/streams', isAuthenticatedAndHasPermissions(['skillComposer']), (request, response) => {
     Stream.create(request.body, (error, created) => {
       if (error) {
-        errorHandler(response, error, 400);
-      } else {
-        response.status(201).json(created);
+        return errorHandler(response, error, 400);
       }
+        return response.status(201).json(created);
     });
   });
 };

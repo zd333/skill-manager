@@ -1,17 +1,14 @@
 'use strict';
 
 const errorHandler = require('../common/error-handler');
-const hasPermissions = require('../auth/auth-middleware');
+const isAuthenticatedAndHasPermissions = require('../auth/auth-middleware');
 const Skill = require('./skill.model');
 
 module.exports = app => {
   /**
-   * '/api/v0/skills'
-   * GET: list of skills with optionsl `q` param
-   * POST: create new skill
+   * List of skills with optionsl `q` param
    */
-
-  app.get('/api/v0/skills', hasPermissions([]), (request, response) => {
+  app.get('/api/v0/skills', isAuthenticatedAndHasPermissions([]), (request, response) => {
     const searchQuery = request.query.q;
     Skill.find({
       name: {
@@ -20,20 +17,21 @@ module.exports = app => {
       }
     }, (error, skills) => {
       if (error) {
-        errorHandler(response, error);
-      } else {
-        response.status(200).json(skills);
+        return errorHandler(response, error);
       }
+      return response.status(200).json(skills);
     });
   });
 
-  app.post('/api/v0/skills', hasPermissions(['skillComposer']), (request, response) => {
+  /**
+   * Create new skill
+   */
+  app.post('/api/v0/skills', isAuthenticatedAndHasPermissions(['skillComposer']), (request, response) => {
     Skill.create(request.body, (error, created) => {
       if (error) {
-        errorHandler(response, error, 400);
-      } else {
-        response.status(201).json(created);
+        return errorHandler(response, error, 400);
       }
+      return response.status(201).json(created);
     });
   });
 };
