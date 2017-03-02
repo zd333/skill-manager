@@ -42,7 +42,7 @@ module.exports = app => {
     if (request.user) {
       return response.status(200).json(request.user);
     }
-    return errorHandler(response, { message: 'You are not logged in'}, 404);
+    return errorHandler(response, { message: 'You are not logged in' }, 404);
   });
 
   /**
@@ -50,7 +50,9 @@ module.exports = app => {
    */
   // TODO: replace get with post after SPA is ready
   app.get('/api/v0/logout', (request, response) => {
-    request.logout();
-    return response.status(200).json({ message: 'Successfully logged out'});
+    request.session.destroy(() => {
+      request.logout();
+    });
+    return response.status(200).json({ message: 'Successfully logged out' });
   });
 };
