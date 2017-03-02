@@ -2,6 +2,7 @@
 
 module.exports = permissions => {
   return (request, response, next) => {
+    console.log(request.user);
     // Not authenticated
     if (!request.user) {
       return response.status(401).json({
