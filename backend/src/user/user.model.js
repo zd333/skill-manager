@@ -26,7 +26,7 @@ const userSchema = new Schema({
       skillId: { type: mongoose.Schema.Types.ObjectId, ref: 'Skill', required: true },
       skillName: { type: String, required: true },
       value: { type: Number, required: true, min: 0, max: 4},
-      postedAt: { type: Date, default: Date.now, required: true},
+      postedAt: { type: Date, default: Date.now, required: true, index: true},
       approvement: {
         postedAt: { type: Date, default: Date.now, required: true},
         approverId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
