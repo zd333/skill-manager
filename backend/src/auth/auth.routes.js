@@ -33,5 +33,24 @@ module.exports = app => {
       }
       return next();
     })(request, response, next);
-  }, (request, response) => response.status(200).json({ message: 'Successfully logged in' }));
+  }, (request, response) => response.status(200).json(request.user));
+
+  /**
+   * Get user session data
+   */
+  app.get('/api/v0/user_session', (request, response) => {
+    if (request.user) {
+      return response.status(200).json(request.user);
+    }
+    return errorHandler(response, { message: 'You are not logged in'}, 404);
+  });
+
+  /**
+   * Logout user
+   */
+  // TODO: replace get with post after SPA is ready
+  app.get('/api/v0/logout', (request, response) => {
+    request.logout();
+    return response.status(200).json({ message: 'Successfully logged out'});
+  });
 };
