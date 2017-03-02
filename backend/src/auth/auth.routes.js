@@ -26,15 +26,22 @@ module.exports = app => {
   /**
    * Google authentication callback
    */
-  app.get('/api/v0/login/google/callback', (request, response, next) => {
-    passport.authenticate('google', error => {
+  app.get('/api/v0/login/google/callback', (request, response) => {
+    passport.authenticate('google', (error, user) => {
       if (error) {
         return errorHandler(response, error, 403);
       }
-      return next();
-    })(request, response, next);
-  }, (request, response) => response.status(200).json(request.user));
-
+      if (!user) {
+        return errorHandler(response, { message: 'Please authenticate' }, 401);
+      }
+      request.logIn(user, error => {
+        if (error) {
+          return errorHandler(response, error);
+        }
+        return response.status(200).json(request.user);
+      });
+    })(request, response);
+  });
   /**
    * Get user session data
    */
