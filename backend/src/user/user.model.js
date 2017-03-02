@@ -9,26 +9,18 @@ const userSchema = new Schema({
   isInactive: { type: Boolean },
   permissions: {
     type: Array,
-    default: [],
-    validate(value) {
-      const permissions = [
-        'admin',
-        'skillComposer',
-        'skillApprover',
-        'pdpCreator'
-      ];
-      return permissions.find(permission => permission === value) !== -1;
-    }
+    default: []
   },
   streams: [{
     streamId: { type: mongoose.Schema.Types.ObjectId, ref: 'Stream', required: true },
+    streamName: { type: String, required: true },
     skills: [{
       skillId: { type: mongoose.Schema.Types.ObjectId, ref: 'Skill', required: true },
       skillName: { type: String, required: true },
-      value: { type: Number, required: true, min: 0, max: 4},
-      postedAt: { type: Date, default: Date.now, required: true, index: true},
+      value: { type: Number, required: true, min: 0, max: 4 },
+      postedAt: { type: Date, default: Date.now, required: true, index: true },
       approvement: {
-        postedAt: { type: Date, default: Date.now, required: true},
+        postedAt: { type: Date, default: Date.now, required: true },
         approverId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
         approverName: { type: String, required: true }
       }

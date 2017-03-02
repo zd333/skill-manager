@@ -55,8 +55,7 @@ module.exports = app => {
   /**
    * Logout user
    */
-  // TODO: replace get with post after SPA is ready
-  app.get('/api/v0/logout', (request, response) => {
+  app.post('/api/v0/logout', (request, response) => {
     request.session.destroy(() => {
       request.logout();
     });
