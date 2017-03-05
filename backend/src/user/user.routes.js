@@ -12,37 +12,30 @@ module.exports = app => {
   /**
    * List of users with latest marks
    * Query params:
-   * `active` (boolean, optional) - if select or not active/inactive users (all are selected if not specified)
+   * `include_inactive` (no value, optional) - if select or not inactive users
    * `streams` (string, optional) - separated by comma stream ids to filter by
    * `skills` (string, optional) - separated by comma skill ids to filter by
    */
   app.get('/api/v0/users', isAuthenticatedAndHasPermissions([]), (request, response) => {
     // Prepare filters
-    let matchFilter;
-    let activeFlag = request.query.active ? request.query.active.toLowerCase() : undefined;
-    if (activeFlag !== 'true' && activeFlag !== 'false') {
-      activeFlag = undefined;
-    }
-    if (activeFlag || request.query.streams || request.query.skills) {
-      matchFilter = { $and: [] };
-      // `isActive` filter
-      if (activeFlag) {
-        matchFilter.$and.push({ isActive: activeFlag === 'true' });
-      }
-      // `streamId` filter
-      if (request.query.streams) {
-        request.query.streams.split(',')
-          .filter(stringId => mongoose.Types.ObjectId.isValid(stringId))
-          .forEach(stringId => matchFilter.$and.push({ 'skillMarks.streamId': new mongoose.Types.ObjectId(stringId) }));
-      }
-      // `skillId` filter
-      if (request.query.skills) {
-        request.query.skills.split(',')
-          .filter(stringId => mongoose.Types.ObjectId.isValid(stringId))
-          .forEach(stringId => matchFilter.$and.push({ 'skillMarks.skillId': new mongoose.Types.ObjectId(stringId) }));
-      }
+    const matchFilter = { $and: [] };
+    // `isActive` filter
+    if (Object.hasOwnProperty.call(request.query, 'include_inactive')) {
+      matchFilter.$and.push({});
     } else {
-      matchFilter = {};
+      matchFilter.$and.push({ isActive: true });
+    }
+    // `streamId` filter
+    if (request.query.streams) {
+      request.query.streams.split(',')
+        .filter(stringId => mongoose.Types.ObjectId.isValid(stringId))
+        .forEach(stringId => matchFilter.$and.push({ 'skillMarks.streamId': new mongoose.Types.ObjectId(stringId) }));
+    }
+    // `skillId` filter
+    if (request.query.skills) {
+      request.query.skills.split(',')
+        .filter(stringId => mongoose.Types.ObjectId.isValid(stringId))
+        .forEach(stringId => matchFilter.$and.push({ 'skillMarks.skillId': new mongoose.Types.ObjectId(stringId) }));
     }
     // Do crazy projection
     User.aggregate([
