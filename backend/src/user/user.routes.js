@@ -23,8 +23,17 @@ module.exports = app => {
   /**
    * User data with whole history of skill marks
    */
-  // TODO: implement
-  app.get('/api/v0/users/:id');
+  app.get('/api/v0/users/:id', isAuthenticatedAndHasPermissions([]), (request, response) => {
+    return User.findOne({ googleId: request.params.id }, (error, user) => {
+      if (error) {
+        return errorHandler(response, error);
+      }
+      if (!user) {
+        return errorHandler(response, { message: 'User does not exist' }, 404);
+      }
+      return response.status(200).json(user);
+    });
+  });
 
   /**
    * Activate/deactivate user
