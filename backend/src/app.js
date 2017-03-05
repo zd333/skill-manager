@@ -10,6 +10,7 @@ const config = require('./config/app.config');
 const activateRoutes = require('./common/routes');
 const configPassport = require('./auth/passport');
 
+mongoose.Promise = Promise;
 const app = express();
 app.use(bodyParser.json());
 

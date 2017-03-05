@@ -13,5 +13,5 @@
 1. Connect to mongo machine (for Docker container exec `docker exec -it mongo_container_name bash`)
 1. Execute `mongo`
 1. Execute `use skdsmdb`
-1. Execute `db.users.update({email: 'email@example.com'}, {$set: {permissions: ['admin']}})`
+1. Execute `db.users.update({email: 'email@steelkiwi.com'}, {$set: {permissions: ['admin']}})`
 

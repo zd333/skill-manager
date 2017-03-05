@@ -6,7 +6,9 @@ const Skill = require('./skill.model');
 
 module.exports = app => {
   /**
-   * List of skills with optional `q` param
+   * List of skills
+   * Query params:
+   * `q` (string, optional) - search string
    */
   app.get('/api/v0/skills', isAuthenticatedAndHasPermissions([]), (request, response) => {
     const searchQuery = request.query.q;
