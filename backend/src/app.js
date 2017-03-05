@@ -7,7 +7,7 @@ const session = require('express-session');
 const MongoSessionStore = require('connect-mongo')(session);
 
 const config = require('./config/app.config');
-const activateRoutes = require('./common/routes');
+const activateRoutes = require('./common/routes-collector');
 const configPassport = require('./auth/passport');
 
 mongoose.Promise = Promise;
