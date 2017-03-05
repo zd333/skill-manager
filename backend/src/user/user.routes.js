@@ -1,5 +1,7 @@
 'use strict';
 
+const mongoose = require('mongoose');
+
 const errorHandler = require('../common/error-handler');
 const isAuthenticatedAndHasPermissions = require('../auth/auth-middleware');
 const User = require('./user.model');
@@ -8,17 +10,44 @@ const Stream = require('../streams/stream.model');
 
 module.exports = app => {
   /**
-   * List of users
+   * List of users with latest marks
+   * Query params:
+   * `active` (boolean, optional) - if select or not active/inactive users (all are selected if not specified)
+   * `streams` (string, optional) - separated by comma stream ids to filter by
+   * `skills` (string, optional) - separated by comma skill ids to filter by
    */
-  // TODO: add filter by stream id, skill id (several ids)
   app.get('/api/v0/users', isAuthenticatedAndHasPermissions([]), (request, response) => {
-    // User.find({}, (error, users) => {
-    //   if (error) {
-    //     return errorHandler(response, error);
-    //   }
-    //   return response.status(200).json(users);
-    // });
+    // Prepare filters
+    let matchFilter;
+    let activeFlag = request.query.active ? request.query.active.toLowerCase() : undefined;
+    if (activeFlag !== 'true' && activeFlag !== 'false') {
+      activeFlag = undefined;
+    }
+    if (activeFlag || request.query.streams || request.query.skills) {
+      matchFilter = { $and: [] };
+      // `isActive` filter
+      if (activeFlag) {
+        matchFilter.$and.push({ isActive: activeFlag === 'true' });
+      }
+      // `streamId` filter
+      if (request.query.streams) {
+        request.query.streams.split(',')
+          .filter(stringId => mongoose.Types.ObjectId.isValid(stringId))
+          .forEach(stringId => matchFilter.$and.push({ 'skillMarks.streamId': new mongoose.Types.ObjectId(stringId) }));
+      }
+      // `skillId` filter
+      if (request.query.skills) {
+        request.query.skills.split(',')
+          .filter(stringId => mongoose.Types.ObjectId.isValid(stringId))
+          .forEach(stringId => matchFilter.$and.push({ 'skillMarks.skillId': new mongoose.Types.ObjectId(stringId) }));
+      }
+    } else {
+      matchFilter = {};
+    }
+    // Do crazy projection
     User.aggregate([
+      // Apply filters
+      { $match: matchFilter },
       // Flatten users (decompose nested arrays)
       { $unwind: '$skillMarks' },
       // Sort users, this will make latest (by `postedAt`) be first in each `googleId`+'skillId' group (see next grouping statement)
