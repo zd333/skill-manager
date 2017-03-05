@@ -12,7 +12,63 @@ module.exports = app => {
    */
   // TODO: add filter by stream id, skill id (several ids), select latest marks
   app.get('/api/v0/users', isAuthenticatedAndHasPermissions([]), (request, response) => {
-    User.find({}, (error, users) => {
+    // User.find({}, (error, users) => {
+    //   if (error) {
+    //     return errorHandler(response, error);
+    //   }
+    //   return response.status(200).json(users);
+    // });
+    User.aggregate([
+      // Flatten users (decompose nested arrays)
+      { $unwind: '$skillMarks' },
+      // Sort users, this will make latest (by `postedAt`) be first in each `googleId`+'skillId' group (see next grouping statement)
+      {
+        $sort: {
+          googleId: -1,
+          'skillMarks.skillId': -1,
+          'skillMarks.postedAt': -1
+        }
+      },
+      // Group users by skill
+      {
+        $group: {
+          _id: {
+            googleId: '$googleId',
+            skillId: '$skillMarks.skillId'
+          },
+          name: { $first: '$name' },
+          email: { $first: '$email' },
+          skillMarkId: { $first: '$skillMarks._id' },
+          postedAt: { $first: '$skillMarks.postedAt' },
+          value: { $first: '$skillMarks.value' },
+          skillName: { $first: '$skillMarks.skillName' },
+          skillId: { $first: '$skillMarks.skillId' },
+          streamName: { $first: '$skillMarks.streamName' },
+          streamId: { $first: '$skillMarks.streamId' },
+          approvement: { $first: '$skillMarks.approvement' }
+        }
+      },
+      // Re-group users to get required data structure
+      {
+        $group: {
+          _id: '$_id.googleId',
+          name: { $first: '$name' },
+          email: { $first: '$email' },
+          skillMarks: {
+            $push: {
+              _id: '$skillMarkId',
+              streamId: '$streamId',
+              streamName: '$streamName',
+              skillId: '$skillId',
+              skillName: '$skillName',
+              value: '$value',
+              postedAt: '$postedAt',
+              approvement: '$approvement'
+            }
+          }
+        }
+      }
+    ], (error, users) => {
       if (error) {
         return errorHandler(response, error);
       }
@@ -24,7 +80,7 @@ module.exports = app => {
    * User data with whole history of skill marks
    */
   app.get('/api/v0/users/:id', isAuthenticatedAndHasPermissions([]), (request, response) => {
-    return User.findOne({ googleId: request.params.id }, (error, user) => {
+    return User.findOne({ googleId: request.params.id }, { _id: 0, googleId: 0, token: 0, permissions: 0 }, (error, user) => {
       if (error) {
         return errorHandler(response, error);
       }
