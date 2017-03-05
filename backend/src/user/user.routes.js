@@ -226,7 +226,7 @@ module.exports = app => {
     return User.findOneAndUpdate({ 'skillMarks._id': request.params.id }, {
       $set: {
         'skillMarks.$.approvement': {
-          approverGoogleId: request.user.googleId,
+          approverId: request.user.googleId,
           approverName: request.user.name,
           postedAt: Date.now()
         }
