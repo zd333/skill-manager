@@ -10,7 +10,7 @@ module.exports = app => {
   /**
    * List of users
    */
-  // TODO: add filter by stream id, skill id (several ids), select latest marks
+  // TODO: add filter by stream id, skill id (several ids)
   app.get('/api/v0/users', isAuthenticatedAndHasPermissions([]), (request, response) => {
     // User.find({}, (error, users) => {
     //   if (error) {
@@ -38,6 +38,7 @@ module.exports = app => {
           },
           name: { $first: '$name' },
           email: { $first: '$email' },
+          isActive: { $first: '$isActive' },
           skillMarkId: { $first: '$skillMarks._id' },
           postedAt: { $first: '$skillMarks.postedAt' },
           value: { $first: '$skillMarks.value' },
@@ -54,6 +55,7 @@ module.exports = app => {
           _id: '$_id.googleId',
           name: { $first: '$name' },
           email: { $first: '$email' },
+          isActive: { $first: '$isActive' },
           skillMarks: {
             $push: {
               _id: '$skillMarkId',
@@ -94,10 +96,10 @@ module.exports = app => {
   /**
    * Activate/deactivate user
    * Body params:
-   * `isInactive` (boolean, required) - to set user is inactive flag
+   * `isActive` (boolean, required) - to set user is inactive flag
    */
-  app.post('/api/v0/users/:id/is_inactive', isAuthenticatedAndHasPermissions(['admin']), (request, response) => {
-    User.update({ googleId: request.params.id }, { $set: { isInactive: request.body.isInactive } }, (error, updated) => {
+  app.post('/api/v0/users/:id/is_active', isAuthenticatedAndHasPermissions(['admin']), (request, response) => {
+    User.update({ googleId: request.params.id }, { $set: { isActive: request.body.isActive } }, (error, updated) => {
       if (error) {
         return errorHandler(response, error, 400);
       }

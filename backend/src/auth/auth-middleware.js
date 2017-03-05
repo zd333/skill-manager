@@ -8,6 +8,7 @@ module.exports = permissions => {
     if (!request.user) {
       return errorHandler(response, { message: 'Authentication required' }, 401);
     }
+    // TODO: check user is active
     // No permissions passed (required)
     if (!permissions || !Array.isArray(permissions) || !permissions.length) {
       return next();
