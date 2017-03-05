@@ -23,7 +23,7 @@ module.exports = app => {
   /**
    * User data with whole history of skill marks
    */
-  // TODO: implement, select latest marks
+  // TODO: implement
   app.get('/api/v0/users/:id');
 
   /**
@@ -47,6 +47,8 @@ module.exports = app => {
 
   /**
    * Update user permissions
+   * Body params:
+   * `permissions` (array, required) - new list of user permission strings
    */
   app.put('/api/v0/users/:id/permissions', isAuthenticatedAndHasPermissions(['admin']), (request, response, next) => {
     // Validate permissions array
@@ -87,6 +89,9 @@ module.exports = app => {
 
   /**
    * Add user skill mark to himself
+   * Body params:
+   * `skillId` (object id, required) - skill id
+   * `value` (number, required) - mark value
    */
   app.post('/api/v0/my_skill_marks', isAuthenticatedAndHasPermissions([]), (request, response) => {
     const user = request.user;
@@ -97,7 +102,7 @@ module.exports = app => {
     let stream;
 
     // Get skill
-    Skill.findById(skillId)
+    return Skill.findById(skillId)
       .then(foundSkill => {
         skill = foundSkill;
       })
@@ -106,28 +111,13 @@ module.exports = app => {
       .then(foundStream => {
         stream = foundStream;
       })
-      // Check if User already has this stream and push if not
-      .then(() => User.findOne({ googleId: user.googleId, 'skillStreams.streamId': stream._id }))
-      .then(userWithStream => {
-        if (!userWithStream) {
-          // User doesn't have this stream, push it
-          return User.findOneAndUpdate({ googleId: user.googleId }, {
-            $push: {
-              skillStreams: {
-                streamId: stream._id,
-                streamName: stream.name,
-                skillMarks: []
-              }
-            }
-          });
-        }
-        return Promise.resolve();
-      })
       // Push skill mark
       .then(() => {
-        return User.findOneAndUpdate({ googleId: user.googleId, 'skillStreams.streamId': stream._id }, {
+        return User.findOneAndUpdate({ googleId: user.googleId }, {
           $push: {
-            'skillStreams.$.skillMarks': {
+            skillMarks: {
+              streamId: stream._id,
+              streamName: stream.name,
               skillId: skill._id,
               skillName: skill.name,
               value: markValue,
@@ -143,6 +133,17 @@ module.exports = app => {
   /**
    * Approve user skill mark
    */
-  // TODO: implement
-  app.post('/api/v0/users/:id/approve_skill_mark');
+  app.post('/api/v0/user_skill_marks/:id/approve', isAuthenticatedAndHasPermissions(['skillApprover']), (request, response) => {
+    return User.findOneAndUpdate({ 'skillMarks._id': request.params.id }, {
+      $set: {
+        'skillMarks.$.approvement': {
+          approverGoogleId: request.user.googleId,
+          approverName: request.user.name,
+          postedAt: Date.now()
+        }
+      }
+    })
+      .then(() => response.status(201).send())
+      .catch(error => errorHandler(response, error, 400));
+  });
 };

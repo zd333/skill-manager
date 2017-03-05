@@ -11,20 +11,18 @@ const userSchema = new Schema({
     type: Array,
     default: []
   },
-  skillStreams: [{
+  skillMarks: [{
     streamId: { type: mongoose.Schema.Types.ObjectId, ref: 'Stream', required: true },
     streamName: { type: String, required: true },
-    skillMarks: [{
-      skillId: { type: mongoose.Schema.Types.ObjectId, ref: 'Skill', required: true },
-      skillName: { type: String, required: true },
-      value: { type: Number, required: true, min: 0, max: 4 },
-      postedAt: { type: Date, default: Date.now, required: true, index: true },
-      approvement: {
-        postedAt: { type: Date},
-        approverId: { type: mongoose.Schema.Types.ObjectId, ref: 'User'},
-        approverName: { type: String}
-      }
-    }]
+    skillId: { type: mongoose.Schema.Types.ObjectId, ref: 'Skill', required: true },
+    skillName: { type: String, required: true },
+    value: { type: Number, required: true, min: 0, max: 4 },
+    postedAt: { type: Date, default: Date.now, required: true, index: true },
+    approvement: {
+      postedAt: { type: Date},
+      approverGoogleId: { type: String},
+      approverName: { type: String}
+    }
   }]
 });
 const User = mongoose.model('User', userSchema);
