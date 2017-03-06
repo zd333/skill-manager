@@ -9,12 +9,9 @@ module.exports = app => {
    * List of streams
    */
   app.get('/api/v0/streams', isAuthenticatedAndHasPermissions([]), (request, response) => {
-    Stream.find({}, (error, streams) => {
-      if (error) {
-        return errorHandler(response, error);
-      }
-      return response.status(200).json(streams);
-    });
+    return Stream.find({})
+      .then(foundStreams => response.status(200).json(foundStreams))
+      .catch(error => errorHandler(response, error));
   });
 
   /**
@@ -23,11 +20,8 @@ module.exports = app => {
    * `name` (string, required) - name of new stream
    */
   app.post('/api/v0/streams', isAuthenticatedAndHasPermissions(['skillComposer']), (request, response) => {
-    Stream.create(request.body, (error, created) => {
-      if (error) {
-        return errorHandler(response, error, 400);
-      }
-        return response.status(201).json(created);
-    });
+    return Stream.create(request.body)
+      .then(createdStream => response.status(201).json(createdStream))
+      .catch(error => errorHandler(response, error, 400));
   });
 };
