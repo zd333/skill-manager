@@ -16,6 +16,7 @@ module.exports = app => {
    * `streams` (string, optional) - separated by comma stream ids to filter by
    * `skills` (string, optional) - separated by comma skill ids to filter by
    */
+  // TODO: with this implementation users without skill marks will not be included to response
   app.get('/api/v0/users', isAuthenticatedAndHasPermissions([]), (request, response) => {
     // Prepare filters
     const matchFilter = { $and: [] };
@@ -132,7 +133,6 @@ module.exports = app => {
       return response.status(204).send();
     });
   });
-
 
   /**
    * Update user permissions

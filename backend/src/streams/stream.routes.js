@@ -19,6 +19,8 @@ module.exports = app => {
 
   /**
    * Create new stream
+   * Body params:
+   * `name` (string, required) - name of new stream
    */
   app.post('/api/v0/streams', isAuthenticatedAndHasPermissions(['skillComposer']), (request, response) => {
     Stream.create(request.body, (error, created) => {

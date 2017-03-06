@@ -27,6 +27,9 @@ module.exports = app => {
 
   /**
    * Create new skill
+   * Body params:
+   * `name` (string, required) - name of new skill
+   * `streamId` (object id string, required) - id of related stream
    */
   app.post('/api/v0/skills', isAuthenticatedAndHasPermissions(['skillComposer']), (request, response) => {
     Skill.create(request.body, (error, created) => {
