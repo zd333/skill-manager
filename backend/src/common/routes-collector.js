@@ -5,7 +5,7 @@ const routes = [
   require('../skills/skill.routes'),
   require('../auth/auth.routes'),
   require('../user/user.routes'),
-  require('../pdps/pdp.routes'),
+  require('../pdps/pdp.routes')
 ];
 
 module.exports = app => {

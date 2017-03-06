@@ -3,10 +3,12 @@ const Schema = mongoose.Schema;
 
 const pdpSchema = new Schema(
   {
-    postedAt: { type: Date, default: Date.now, required: true },
-    creatorId: { type: String, required: true },
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+    userName: { type: String, required: true },
+    creatorId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     creatorName: { type: String, required: true },
-    finishesAt: { type: Date, required: true },
+    postedAt: { type: Date, default: Date.now, required: true },
+    plannedFinishAt: { type: Date, required: true },
     goals: [
       {
         streamId: { type: mongoose.Schema.Types.ObjectId, ref: 'Stream', required: true },
