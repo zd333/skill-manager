@@ -16,7 +16,7 @@ module.exports = app => {
    * `streams` (string, optional) - separated by comma stream ids to filter by
    * `skills` (string, optional) - separated by comma skill ids to filter by
    */
-  // TODO: with this implementation users without skill marks will not be included to response
+  // ATTENTION: with this implementation users without skill marks will not be included to response
   app.get('/api/v0/users', isAuthenticatedAndHasPermissions([]), (request, response) => {
     // Prepare filters
     const matchFilter = { $and: [] };
@@ -39,7 +39,7 @@ module.exports = app => {
         .forEach(stringId => matchFilter.$and.push({ 'skillMarks.skillId': new mongoose.Types.ObjectId(stringId) }));
     }
     // Do crazy projection
-    User.aggregate([
+    return User.aggregate([
       // Apply filters
       { $match: matchFilter },
       // Flatten users (decompose nested arrays)
@@ -93,27 +93,27 @@ module.exports = app => {
           }
         }
       }
-    ], (error, users) => {
-      if (error) {
-        return errorHandler(response, error);
-      }
-      return response.status(200).json(users);
-    });
+    ])
+      .then(users => response.status(200).json(users))
+      .catch(error => errorHandler(response, error));
   });
 
   /**
    * User data with whole history of skill marks
    */
   app.get('/api/v0/users/:id', isAuthenticatedAndHasPermissions([]), (request, response) => {
-    return User.findOne({ googleId: request.params.id }, { _id: 0, googleId: 0, token: 0, permissions: 0 }, (error, user) => {
-      if (error) {
-        return errorHandler(response, error);
-      }
-      if (!user) {
-        return errorHandler(response, { message: 'User does not exist' }, 404);
-      }
-      return response.status(200).json(user);
-    });
+    return User.findOne({ googleId: request.params.id }, {
+      _id: 0,
+      googleId: 0,
+      token: 0
+    })
+      .then(foundUser => {
+        if (!foundUser) {
+          return errorHandler(response, { message: 'User does not exist' }, 404);
+        }
+        return response.status(200).json(foundUser);
+      })
+      .catch(error => errorHandler(response, error));
   });
 
   /**
@@ -122,16 +122,15 @@ module.exports = app => {
    * `isActive` (boolean, required) - to set user is inactive flag
    */
   app.post('/api/v0/users/:id/is_active', isAuthenticatedAndHasPermissions(['admin']), (request, response) => {
-    User.update({ googleId: request.params.id }, { $set: { isActive: request.body.isActive } }, (error, updated) => {
-      if (error) {
-        return errorHandler(response, error, 400);
-      }
-      if (updated.n === 0) {
-        // No rows were affected, no user with given id
-        return errorHandler(response, { message: 'User does not exist' }, 404);
-      }
-      return response.status(204).send();
-    });
+    return User.update({ googleId: request.params.id }, { $set: { isActive: request.body.isActive } })
+      .then(updatedUsers => {
+        if (updatedUsers.n === 0) {
+          // No rows were affected, no user with given id
+          return errorHandler(response, { message: 'User does not exist' }, 404);
+        }
+        return response.status(204).send();
+      })
+      .catch(error => errorHandler(response, error, 400));
   });
 
   /**
@@ -164,16 +163,15 @@ module.exports = app => {
     request.body.permissions = sanitizedPermissions;
     next();
   }, (request, response) => {
-    User.update({ googleId: request.params.id }, { $set: { permissions: request.body.permissions } }, (error, updated) => {
-      if (error) {
-        return errorHandler(response, error, 400);
-      }
-      if (updated.n === 0) {
-        // No rows were affected, no user with given id
-        return errorHandler(response, { message: 'User does not exist' }, 404);
-      }
-      return response.status(204).send();
-    });
+    return User.update({ googleId: request.params.id }, { $set: { permissions: request.body.permissions } })
+      .then(updatedUsers => {
+        if (updatedUsers.n === 0) {
+          // No rows were affected, no user with given id
+          return errorHandler(response, { message: 'User does not exist' }, 404);
+        }
+        return response.status(204).send();
+      })
+      .catch(error => errorHandler(response, error, 400));
   });
 
   /**
