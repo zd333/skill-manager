@@ -28,10 +28,10 @@ module.exports = app => {
       if (user) {
         return done(null, user);
       }
-      // TODO: check user is active
-      // if (!user.isActive) {
-      //   return done({ message: 'Your account is disabled' });
-      // }
+      // Check user is active
+      if (!user.isActive) {
+        return done({ message: 'Your account is disabled' });
+      }
       // This is new user
       User.create({
         googleId: profile.id,
