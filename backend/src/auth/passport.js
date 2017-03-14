@@ -24,14 +24,16 @@ module.exports = app => {
       if (error) {
         return done(error);
       }
+
       // User exists
       if (user) {
+        // Check user is active
+        if (!user.isActive) {
+          return done({ message: 'Your account is disabled' });
+        }
         return done(null, user);
       }
-      // Check user is active
-      if (!user.isActive) {
-        return done({ message: 'Your account is disabled' });
-      }
+
       // This is new user
       User.create({
         googleId: profile.id,

@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 
 const errorHandler = require('../common/error-handler');
 const isAuthenticatedAndHasPermissions = require('../auth/auth-middleware');
+
 const User = require('./user.model');
 const Skill = require('../skills/skill.model');
 const Stream = require('../streams/stream.model');

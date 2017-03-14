@@ -3,9 +3,9 @@ const Schema = mongoose.Schema;
 
 const pdpSchema = new Schema(
   {
-    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+    userId: { type: String, required: true },
     userName: { type: String, required: true },
-    creatorId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+    creatorId: { type: String, required: true },
     creatorName: { type: String, required: true },
     postedAt: { type: Date, default: Date.now, required: true },
     plannedFinishAt: { type: Date, required: true },

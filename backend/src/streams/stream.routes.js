@@ -2,6 +2,7 @@
 
 const errorHandler = require('../common/error-handler');
 const isAuthenticatedAndHasPermissions = require('../auth/auth-middleware');
+
 const Stream = require('./stream.model');
 
 module.exports = app => {
