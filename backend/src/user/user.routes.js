@@ -45,10 +45,10 @@ module.exports = app => {
       { $match: matchFilter },
       // Flatten users (decompose nested arrays)
       { $unwind: '$skillMarks' },
-      // Sort users, this will make latest (by `postedAt`) be first in each `googleId`+'skillId' group (see next grouping statement)
+      // Sort users, this will make latest (by `postedAt`) be first in each `_id`+`skillId` group (see next grouping statement)
       {
         $sort: {
-          googleId: -1,
+          _id: -1,
           'skillMarks.skillId': -1,
           'skillMarks.postedAt': -1
         }
@@ -57,7 +57,7 @@ module.exports = app => {
       {
         $group: {
           _id: {
-            googleId: '$googleId',
+            _id: '$_id',
             skillId: '$skillMarks.skillId'
           },
           name: { $first: '$name' },
@@ -76,7 +76,7 @@ module.exports = app => {
       // Re-group users to get required data structure
       {
         $group: {
-          _id: '$_id.googleId',
+          _id: '$_id._id',
           name: { $first: '$name' },
           email: { $first: '$email' },
           isActive: { $first: '$isActive' },
@@ -103,11 +103,7 @@ module.exports = app => {
    * User data with whole history of skill marks
    */
   app.get('/api/v0/users/:id', isAuthenticatedAndHasPermissions([]), (request, response) => {
-    return User.findOne({ googleId: request.params.id }, {
-      _id: 0,
-      googleId: 0,
-      token: 0
-    })
+    return User.findById(request.params.id, { _id: 0 })
       .then(foundUser => {
         if (!foundUser) {
           return errorHandler(response, { message: 'User does not exist' }, 404);
@@ -123,7 +119,7 @@ module.exports = app => {
    * `isActive` (boolean, required) - to set user is inactive flag
    */
   app.post('/api/v0/users/:id/is_active', isAuthenticatedAndHasPermissions(['admin']), (request, response) => {
-    return User.update({ googleId: request.params.id }, { $set: { isActive: request.body.isActive } })
+    return User.update({ _id: request.params.id }, { $set: { isActive: request.body.isActive } })
       .then(updatedUsers => {
         if (updatedUsers.n === 0) {
           // No rows were affected, no user with given id
@@ -164,7 +160,7 @@ module.exports = app => {
     request.body.permissions = sanitizedPermissions;
     next();
   }, (request, response) => {
-    return User.update({ googleId: request.params.id }, { $set: { permissions: request.body.permissions } })
+    return User.update({ _id: request.params.id }, { $set: { permissions: request.body.permissions } })
       .then(updatedUsers => {
         if (updatedUsers.n === 0) {
           // No rows were affected, no user with given id
@@ -201,7 +197,7 @@ module.exports = app => {
       })
       // Push skill mark
       .then(() => {
-        return User.findOneAndUpdate({ googleId: user.googleId }, {
+        return User.findOneAndUpdate({ _id: user._id }, {
           $push: {
             skillMarks: {
               streamId: stream._id,
@@ -225,7 +221,7 @@ module.exports = app => {
     return User.findOneAndUpdate({ 'skillMarks._id': request.params.id }, {
       $set: {
         'skillMarks.$.approvement': {
-          approverId: request.user.googleId,
+          approverId: request.user._id,
           approverName: request.user.name,
           postedAt: Date.now()
         }

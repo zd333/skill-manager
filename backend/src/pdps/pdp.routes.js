@@ -20,8 +20,8 @@ module.exports = app => {
         pdps = foundPdps;
       })
       // Read user details to verify goals with existing skill marks
-      // TODO: refactor this - avoid every time on-the-fly calculation
-      .then(() => User.findOne({ googleId: request.params.id }))
+      // TODO: refactor this - avoid every time on-the-fly calculation of if each goal and whole pdp are achieved
+      .then(() => User.findById(request.params.id))
       .then(foundUser => {
         const user = foundUser.toObject();
         pdps = pdps.map(pdp => {
@@ -62,19 +62,19 @@ module.exports = app => {
     }
 
     const pdpToSave = {
-      creatorId: request.user.googleId,
+      creatorId: request.user._id,
       creatorName: request.user.name,
       postedAt: Date.now(),
       plannedFinishAt: plannedFinishAt.toDate()
     };
 
     // Get target user
-    return User.findOne({ googleId: request.body.userId })
+    return User.findById(request.body.userId)
       .then(foundUser => {
         if (!foundUser) {
           return Promise.reject({ message: 'Target user is missing or does not exist' });
         }
-        pdpToSave.userId = foundUser.googleId;
+        pdpToSave.userId = foundUser._id;
         pdpToSave.userName = foundUser.name;
       })
       // Get goals (skills)

@@ -7,10 +7,10 @@ const config = require('../config/app.config');
 const User = require('../user/user.model');
 
 module.exports = app => {
-  passport.serializeUser((user, done) => done(null, user.id));
+  passport.serializeUser((user, done) => done(null, user._id));
 
-  passport.deserializeUser((id, done) => {
-    User.findById(id, (error, user) => done(error, user));
+  passport.deserializeUser((_id, done) => {
+    User.findById(_id, (error, user) => done(error, user));
   });
 
   passport.use(new GoogleStrategy(config.auth.google.credentials, (token, refreshToken, profile, done) => {
