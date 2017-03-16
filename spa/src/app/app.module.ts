@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { CoreModule } from './core/core.module';
+import { HomeModule } from './home/home.module';
 
 import { AppComponent } from './app.component';
 
@@ -15,7 +16,8 @@ import { AppComponent } from './app.component';
     BrowserModule,
     FormsModule,
     HttpModule,
-    CoreModule
+    CoreModule,
+    HomeModule
   ],
   providers: [],
   bootstrap: [AppComponent]
