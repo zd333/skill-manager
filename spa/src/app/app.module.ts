@@ -4,8 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { CoreModule } from './core/core.module';
+import { AppRoutingModule } from './app-routing.module';
 import { HomeModule } from './home/home.module';
-
 import { AppComponent } from './app.component';
 
 @NgModule({
@@ -17,6 +17,7 @@ import { AppComponent } from './app.component';
     FormsModule,
     HttpModule,
     CoreModule,
+    AppRoutingModule,
     HomeModule
   ],
   providers: [],
