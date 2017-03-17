@@ -2,7 +2,7 @@ FROM node:7.7.2
 ENV HOME=/spa-dist
 RUN mkdir $HOME
 WORKDIR $HOME
-RUN npm install --global angular-cli
+RUN npm install -g @angular/cli
 COPY . $HOME
 RUN npm install
 EXPOSE 4200
