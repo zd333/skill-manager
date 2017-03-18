@@ -19,7 +19,8 @@
 1. If you have angular-cli globally installed - then be sure to check that your version is 1.0.0-rc.2
 1. If you have another version of globally installed angular - then remove it with next commands: `npm uninstall -g angular-cli`, `npm uninstall -g @angular/cli`, `hash -r`
 1. Install required version of angular-cli `npm install -g @angular/cli@1.0.0-rc.2`
-1. Run `cd spa`, `npm install`
+1. Run `cd spa`, `npm install` (installing node modules locally lets your IDE resolve imports)
+1. Run `docker-compose build --no-cache` every time after updating package.json
 
 ## Adding admin permission after first deploy
 

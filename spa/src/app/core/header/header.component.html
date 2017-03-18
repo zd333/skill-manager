@@ -1,7 +1,8 @@
 <p>
   TODO: markup and styles
   <button type="button"
-    *ngIf="isLoggedIn === false">
+    *ngIf="isLoggedIn === false"
+    (click)="login()">
     Войти
   </button>
   <button type="button"
