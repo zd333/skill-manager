@@ -8,7 +8,6 @@ const MongoSessionStore = require('connect-mongo')(session);
 
 const config = require('./config/app.config');
 const activateRoutes = require('./common/routes-collector');
-const configPassport = require('./auth/passport');
 
 mongoose.Promise = Promise;
 const app = express();
@@ -22,9 +21,10 @@ mongoose.connect(config.db.uri, error => {
 
   app.use(session({
     secret: 'supersecret',
+    resave: false,
+    saveUninitialized: false,
     store: new MongoSessionStore({ mongooseConnection: mongoose.connection })
   }));
-  configPassport(app);
 
   const server = app.listen(config.server.port, () => {
     console.log(`SKD SM server now running on port ${server.address().port}`);

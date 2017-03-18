@@ -12,12 +12,12 @@ import { AppComponent } from './app.component';
 
 // TODO: move this out of here
 // TODO: add mechanism to replace this for production
-const GOOGLE_CLIENT_ID = '625633771047-vbmhvssf8l3o48ib77n87irou3krj6cg.apps.googleusercontent.com';
+const googleClientId = '625633771047-vbmhvssf8l3o48ib77n87irou3krj6cg.apps.googleusercontent.com';
 export class MyAuthConfig extends CustomConfig {
     defaultHeaders = {'Content-Type': 'application/json'};
     providers = {google: {
-      clientId: GOOGLE_CLIENT_ID,
-      url: '/api/v0/login/google/callback',
+      clientId: googleClientId,
+      url: '/api/v0/login/google',
       hd: 'steelkiwi.com',
       prompt: 'select_account'
     }};

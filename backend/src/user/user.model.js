@@ -2,8 +2,6 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
-  googleId: { type: String, required: true, unique: true },
-  token: { type: String, required: true, unique: true },
   name: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   isActive: { type: Boolean, default: true, required: true },
@@ -28,7 +26,7 @@ const userSchema = new Schema({
   ]
 });
 userSchema.index({
-  googleId: -1,
+  _id: -1,
   'skillMarks.skillId': -1,
   'skillMarks.postedAt': -1
 });

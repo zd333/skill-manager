@@ -178,7 +178,7 @@ module.exports = app => {
    * `value` (number, required) - mark value
    */
   app.post('/api/v0/my_skill_marks', isAuthenticatedAndHasPermissions([]), (request, response) => {
-    const user = request.user;
+    const user = request.session.user;
     const skillId = request.body.skillId;
     const markValue = request.body.value;
 
@@ -221,8 +221,8 @@ module.exports = app => {
     return User.findOneAndUpdate({ 'skillMarks._id': request.params.id }, {
       $set: {
         'skillMarks.$.approvement': {
-          approverId: request.user._id,
-          approverName: request.user.name,
+          approverId: request.session.user._id,
+          approverName: request.session.user.name,
           postedAt: Date.now()
         }
       }

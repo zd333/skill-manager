@@ -8,13 +8,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
 
-  isLoggedIn;
+  isLoggedIn: boolean;
+  userName: string;
 
   constructor(private authService: AuthService) { }
 
   ngOnInit() {
     this.authService.getSessionUser.subscribe(user => {
       this.isLoggedIn = Boolean(user);
+      this.userName = user ? user.name : '';
     });
   }
 

@@ -62,8 +62,8 @@ module.exports = app => {
     }
 
     const pdpToSave = {
-      creatorId: request.user._id,
-      creatorName: request.user.name,
+      creatorId: request.session.user._id,
+      creatorName: request.session.user.name,
       postedAt: Date.now(),
       plannedFinishAt: plannedFinishAt.toDate()
     };
