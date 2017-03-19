@@ -1,0 +1,21 @@
+<div class="row">
+  <form novalidate #addSkillForm="ngForm" (ngSubmit)="addSkill(addSkillForm)">
+    <fieldset class="form-group" [disabled]="!haveComposePermission">
+      <div class="col-xs-6">
+        <label for="name">Добавить умение</label>
+        <input type="text" class="form-control" placeholder="Название" id="name" name="name" required #name ngModel>
+      </div>
+      <div class="col-xs-6">
+        <label for="stream">Направление</label>
+        <select class="form-control" name="stream" id="stream" required>
+          <option *ngFor="let stream of streams" [value]="stream._id">{{stream.name}}</option>
+        </select>
+      </div>
+    </fieldset>
+    <div class="col-xs-12">
+      <button type="submit" class="btn btn-default pull-right" [disabled]="!haveComposePermission">
+      Добавить
+    </button>
+    </div>
+  </form>
+</div>

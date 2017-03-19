@@ -1,18 +1,16 @@
 <div class="row">
-  <form class="col-xs-12" novalidate
-    #addStreamForm="ngForm"
-    (ngSubmit)="addName(addStreamForm)">
-    <fieldset class="form-group"
-      [disabled]="!haveComposePermission">
-      <label for="name">Добавить направление</label>
-      <input type="text" class="form-control" placeholder="Название" id="name" name="name" required
-        #name
-        ngModel>
+  <form novalidate #addSkillForm="ngForm" (ngSubmit)="addStream(addSkillForm)">
+    <fieldset class="form-group" [disabled]="!haveComposePermission">
+      <div class="col-xs-12">
+        <label for="name">Добавить направление</label>
+        <input type="text" class="form-control" placeholder="Название" id="name" name="name" required #name ngModel>
+      </div>
     </fieldset>
-    <button type="submit" class="btn btn-default pull-right"
-      [disabled]="!haveComposePermission">
+    <div class="col-xs-12">
+      <button type="submit" class="btn btn-default pull-right" [disabled]="!haveComposePermission">
       Добавить
     </button>
+    </div>
   </form>
 </div>
 
@@ -21,7 +19,7 @@
     <table class="table table-striped">
       <thead>
         <tr>
-          <th>Направление</th>
+          <th>Направления</th>
         </tr>
       </thead>
       <tbody>

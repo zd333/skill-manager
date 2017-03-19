@@ -1,18 +1,19 @@
-import { NgForm } from '@angular/forms';
 import { Observable, Subscription } from 'rxjs/Rx';
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Skill } from '../skill.model';
+import { Stream } from '../../streams/stream.model';
 import { AuthService } from '../../core/auth.service';
 import { NotificationsService } from 'angular2-notifications';
-import { StreamsService } from '../streams.service';
-import { Stream } from '../stream.model';
+import { StreamsService } from '../../streams/streams.service';
 
 @Component({
-  selector: 'app-manage-streams',
-  templateUrl: './manage-streams.component.html',
-  styleUrls: ['./manage-streams.component.styl']
+  selector: 'app-manage-skills',
+  templateUrl: './manage-skills.component.html',
+  styleUrls: ['./manage-skills.component.styl']
 })
-export class ManageStreamsComponent implements OnInit, OnDestroy {
-  streams: Array<Stream> = [];
+export class ManageSkillsComponent implements OnInit {
+  skills: Array<Skill> = [];
+  streams: Array<Stream>
   haveComposePermission: boolean = false;
   private permissionSub: Subscription;
 
@@ -32,20 +33,6 @@ export class ManageStreamsComponent implements OnInit, OnDestroy {
       .subscribe(streams => {
         this.streams = streams;
       });
-  }
-
-  addStream(form: NgForm) {
-    if (!form.valid) {
-      return;
-    }
-    this.streamsService.addStream(form.value)
-      .subscribe(addedStream => {
-        this.streams = this.streams.concat(addedStream);
-        form.reset();
-      }, error => {
-        const errorMsg = error.json().errmsg;
-        this.notify.error('Ошибка', errorMsg || 'Не удалось добавить направление');
-      })
   }
 
   ngOnDestroy() {

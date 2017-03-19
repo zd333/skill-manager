@@ -7,6 +7,7 @@ import { CoreModule } from './core/core.module';
 import { AppRoutingModule } from './app-routing.module';
 import { HomeModule } from './home/home.module';
 import { StreamsModule } from './streams/streams.module';
+import { SkillsModule } from './skills/skills.module';
 
 import { AppComponent } from './app.component';
 
@@ -21,7 +22,8 @@ import { AppComponent } from './app.component';
     CoreModule,
     AppRoutingModule,
     HomeModule,
-    StreamsModule
+    StreamsModule,
+    SkillsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

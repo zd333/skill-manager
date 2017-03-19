@@ -1,24 +1,23 @@
+<br>
 <nav class="navbar navbar-default">
   <div class="container-fluid">
     <div class="navbar-header">
       <a class="navbar-brand" routerLink="/home">SKD Skill Manager</a>
     </div>
-      <ul class="nav navbar-nav"
-        *ngIf="isLoggedIn === true">
-        <li [routerLinkActive]="['active']"><a routerLink="manage_streams">Направления</a></li>
-      </ul>
-      <ul class="nav navbar-nav navbar-right">
-        <li *ngIf="isLoggedIn === false">
-          <a href="#"
-            (click)="login($event)"><span class="glyphicon glyphicon-log-in"></span> Войти
+    <ul class="nav navbar-nav" *ngIf="isLoggedIn === true">
+      <li [routerLinkActive]="['active']"><a routerLink="streams">Направления</a></li>
+      <li [routerLinkActive]="['active']"><a routerLink="skills">Умения</a></li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+      <li *ngIf="isLoggedIn === false">
+        <a href="#" (click)="login($event)"><span class="glyphicon glyphicon-log-in"></span> Войти
           </a>
-        </li>
-        <li *ngIf="isLoggedIn === true">
-          <a href="#"
-            (click)="logout($event)">
-            <span class="glyphicon glyphicon-log-out"></span> Выйти ({{userName}})
-          </a>
-        </li>
-      </ul>
+      </li>
+      <li *ngIf="isLoggedIn === true">
+        <a href="#" (click)="logout($event)">
+          <span class="glyphicon glyphicon-log-out"></span> Выйти ({{userName}})
+        </a>
+      </li>
+    </ul>
   </div>
 </nav>
