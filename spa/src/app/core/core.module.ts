@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { Ng2UiAuthModule, CustomConfig } from 'ng2-ui-auth';
+import { SimpleNotificationsModule } from 'angular2-notifications';
 
 import { environment } from '../../environments/environment';
 import { HeaderComponent } from './header/header.component';
@@ -25,11 +26,13 @@ export class MyAuthConfig extends CustomConfig {
     RouterModule,
     CommonModule,
     Ng2UiAuthModule.forRoot(MyAuthConfig),
+    SimpleNotificationsModule.forRoot()
   ],
   providers: [AuthService],
   exports: [
     RouterModule,
     CommonModule,
+    SimpleNotificationsModule,
     HeaderComponent
   ],
   declarations: [HeaderComponent]

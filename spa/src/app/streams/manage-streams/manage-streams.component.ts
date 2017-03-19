@@ -2,8 +2,10 @@ import { NgForm } from '@angular/forms';
 import { Observable, Subscription } from 'rxjs/Rx';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 
-import { StreamsService } from '../streams.service';
 import { AuthService } from '../../core/auth.service';
+import { NotificationsService } from 'angular2-notifications';
+
+import { StreamsService } from '../streams.service';
 
 import { Stream } from '../stream.model';
 
@@ -19,7 +21,7 @@ export class ManageStreamsComponent implements OnInit, OnDestroy {
 
   private permissionSub: Subscription;
 
-  constructor(private streamsService: StreamsService, private authService: AuthService) { }
+  constructor(private streamsService: StreamsService, private authService: AuthService, private notify: NotificationsService) { }
 
   ngOnInit() {
     this.loadStreamsList();
@@ -46,7 +48,7 @@ export class ManageStreamsComponent implements OnInit, OnDestroy {
         this.streams = this.streams.concat(addedStream);
         form.reset();
       }, error => {
-        console.log('error', error);
+        this.notify.error('Ошибка', error.errmsg || 'Не удалось добавить направление');
       })
   }
 
