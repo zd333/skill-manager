@@ -48,7 +48,8 @@ export class ManageStreamsComponent implements OnInit, OnDestroy {
         this.streams = this.streams.concat(addedStream);
         form.reset();
       }, error => {
-        this.notify.error('Ошибка', error.errmsg || 'Не удалось добавить направление');
+        const errorMsg = error.json().errmsg;
+        this.notify.error('Ошибка', errorMsg || 'Не удалось добавить направление');
       })
   }
 
