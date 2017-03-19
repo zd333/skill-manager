@@ -6,6 +6,8 @@ import { HttpModule } from '@angular/http';
 import { CoreModule } from './core/core.module';
 import { AppRoutingModule } from './app-routing.module';
 import { HomeModule } from './home/home.module';
+import { StreamsModule } from './streams/streams.module';
+
 import { AppComponent } from './app.component';
 
 @NgModule({
@@ -18,7 +20,8 @@ import { AppComponent } from './app.component';
     HttpModule,
     CoreModule,
     AppRoutingModule,
-    HomeModule
+    HomeModule,
+    StreamsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

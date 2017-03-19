@@ -14,10 +14,11 @@ export class HeaderComponent implements OnInit {
   constructor(private authService: AuthService) { }
 
   ngOnInit() {
-    this.authService.getSessionUser.subscribe(user => {
-      this.isLoggedIn = Boolean(user);
-      this.userName = user ? user.name : '';
-    });
+    this.authService.sessionUser
+      .subscribe(user => {
+        this.isLoggedIn = Boolean(user);
+        this.userName = user ? user.name : '';
+      });
   }
 
   login(event) {

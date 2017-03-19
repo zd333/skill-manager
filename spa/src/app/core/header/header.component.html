@@ -5,7 +5,7 @@
     </div>
       <ul class="nav navbar-nav"
         *ngIf="isLoggedIn === true">
-        <li [routerLinkActive]="['active']"><a routerLink="/home">Home</a></li>
+        <li [routerLinkActive]="['active']"><a routerLink="manage_streams">Направления</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li *ngIf="isLoggedIn === false">

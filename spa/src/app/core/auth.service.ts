@@ -1,3 +1,5 @@
+import { filter } from 'rxjs/operator/filter';
+import { Router } from '@angular/router';
 import { ReplaySubject, Observable } from 'rxjs/Rx';
 import 'rxjs/add/operator/map';
 import { Http } from '@angular/http';
@@ -12,15 +14,28 @@ export class AuthService {
 
   private _loggedInUser: ReplaySubject<User> = new ReplaySubject(null);
 
-  constructor(private http: Http, private ng2AuthService: Ng2UiAuthService) {
+  constructor(private http: Http, private ng2AuthService: Ng2UiAuthService, private router: Router) {
     this.http
       .get('/api/v0/user_session')
       .map(responseUser => responseUser.json())
       .subscribe(user => this._loggedInUser.next(user), () => this._loggedInUser.next(null));
   }
 
-  get getSessionUser(): Observable<User> {
+  get sessionUser(): Observable<User> {
     return this._loggedInUser.asObservable();
+  }
+
+  sessionUserHasPermission(permissionString): Observable<boolean> {
+    return this._loggedInUser
+      .asObservable()
+      .map(user => {
+        if (!user || !Array.isArray(user.permissions)) {
+          return false;
+        }
+        const found = user.permissions
+          .find(permission => permission === 'admin' || permission === permissionString);
+        return Boolean(found);
+      });
   }
 
   login(): void {
@@ -33,7 +48,10 @@ export class AuthService {
   logout(): void {
     this.http
       .post('/api/v0/logout', {})
-      .subscribe(() => this._loggedInUser.next(null));
+      .subscribe(() => {
+        this.router.navigate(['/']);
+        return this._loggedInUser.next(null);
+      });
   }
 
 }
