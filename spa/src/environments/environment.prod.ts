@@ -1,3 +1,4 @@
 export const environment = {
-  production: true
+  production: true,
+  googleClientId: 'TODO:deploy define prod google client id'
 };
