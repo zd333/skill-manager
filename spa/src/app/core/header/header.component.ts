@@ -20,11 +20,13 @@ export class HeaderComponent implements OnInit {
     });
   }
 
-  login() {
+  login(event) {
+    event.preventDefault();
     this.authService.login();
   }
 
-  logout() {
+  logout(event) {
+    event.preventDefault();
     this.authService.logout();
   }
 

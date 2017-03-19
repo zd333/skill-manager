@@ -15,10 +15,10 @@ Run `docker-compose up` to launch the project in dev mode.
 SPA is available under [http://localhost:4200](http://localhost:4200)
 API is available under [http://localhost:3042](http://localhost:3042)
 
-Please note, when you update package.json in host system - the changes are not automatically reflected in containers (this is true for both back-end and spa apps).
+Please note, when you update package.json (as well as other files outside src folders, e.g. .angular-cli.json) in host system - the changes are not automatically reflected in containers (this is true for both back-end and spa apps).
 Use next commands to update npm pacjakes in container:
 
-* `docker cp spa/package.json container_name:/spa-dist/package.json` / `docker cp backend/package.json container_name:/backend-dist/package.json`
+* `docker cp spa/package.json container_name:/spa-dist/` / `docker cp backend/package.json container_name:/backend-dist/`
 * `docker exec container_name npm install`
 
 ### Developing SPA
@@ -52,7 +52,7 @@ If the values of `SKDSM_PORT`, `SKDSM_MONGO_CONN`, `SKDSM_GOOGLE_CLIENT_SECRET` 
 1. `node app.js`
 
 
-### Adding admin permission after first deploy
+### Creating the very first admin (required after first deploy when DB is empty)
 
 1. Login with admin credentials to the app (to have user instance stored in db)
 1. Connect to mongo machine (for Docker container exec `docker exec -it mongo_container_name bash`)

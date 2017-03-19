@@ -1,3 +1,4 @@
+import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -21,11 +22,13 @@ export class MyAuthConfig extends CustomConfig {
 
 @NgModule({
   imports: [
+    RouterModule,
     CommonModule,
     Ng2UiAuthModule.forRoot(MyAuthConfig),
   ],
   providers: [AuthService],
   exports: [
+    RouterModule,
     CommonModule,
     HeaderComponent
   ],
