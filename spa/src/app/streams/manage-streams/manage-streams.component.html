@@ -1,9 +1,9 @@
+<h4>Добавить направление</h4>
 <div class="row">
   <form novalidate #addSkillForm="ngForm" (ngSubmit)="addStream(addSkillForm)">
     <fieldset class="form-group" [disabled]="!haveComposePermission">
       <div class="col-xs-12">
-        <label for="name">Добавить направление</label>
-        <input type="text" class="form-control" placeholder="Название" id="name" name="name" required #name ngModel>
+        <input type="text" class="form-control" placeholder="Название" name="name" required #name ngModel>
       </div>
     </fieldset>
     <div class="col-xs-12">
@@ -14,19 +14,14 @@
   </form>
 </div>
 
+<h4>Направленя</h4>
 <div class="row">
   <div class="col-xs-12">
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th>Направления</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let stream of streams">
-          <td>{{stream.name}}</td>
-        </tr>
-      </tbody>
-    </table>
+    <ul class="list-group">
+      <li class="list-group-item" *ngFor="let stream of streams">{{stream.name}}</li>
+    </ul>
   </div>
 </div>
+
+<h4>Найти сотрудников по направлениям</h4>
+TODO: add is active filter. Implement chips for search like in material.
