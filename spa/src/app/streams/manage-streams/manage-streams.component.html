@@ -28,10 +28,13 @@
 <div class="row">
   <form class="form-inline">
     <div class="form-group">
+      <!--<input type="text" class="form-control" placeholder="Направление" name="searchName" required>-->
+      <select class="form-control" name="searchName">
+          <option *ngFor="let stream of streams" [value]="stream._id">{{stream.name}}</option>
+      </select>
       <skdsm-chip [text]="'Short'"></skdsm-chip>
       <skdsm-chip [text]="'Miiiiiiidle'"></skdsm-chip>
       <skdsm-chip [text]="'Looooooooooooooooooong'"></skdsm-chip>
-      <input type="text" class="form-control" placeholder="Направление" name="searchName" required>
     </div>
   </form>
 </div>

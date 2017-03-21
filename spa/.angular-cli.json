@@ -58,7 +58,7 @@
       "service": false,
       "class": false,
       "component": false,
-      "module": false,
+      "module": false
     }
   }
 }
