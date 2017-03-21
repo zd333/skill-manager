@@ -30,8 +30,6 @@ export class MyAuthConfig extends CustomConfig {
   ],
   providers: [AuthService],
   exports: [
-    RouterModule,
-    CommonModule,
     SimpleNotificationsModule,
     HeaderComponent
   ],
