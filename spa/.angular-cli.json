@@ -17,7 +17,7 @@
       "test": "test.ts",
       "tsconfig": "tsconfig.app.json",
       "testTsconfig": "tsconfig.spec.json",
-      "prefix": "app",
+      "prefix": "skdsm",
       "styles": [
         "../node_modules/bootstrap/dist/css/bootstrap.min.css",
         "styles.styl"
@@ -55,12 +55,10 @@
     "styleExt": "styl",
     "component": {},
     "spec": {
+      "service": false,
       "class": false,
       "component": false,
-      "directive": false,
       "module": false,
-      "pipe": false,
-      "service": false
     }
   }
 }

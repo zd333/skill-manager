@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-root',
+  selector: 'skdsm-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.styl']
 })
