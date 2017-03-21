@@ -14,7 +14,7 @@
   </form>
 </div>
 
-<h4>Направленя</h4>
+<h4>Направления</h4>
 <div class="row">
   <div class="col-xs-12">
     <ul class="list-group">
@@ -24,4 +24,14 @@
 </div>
 
 <h4>Найти сотрудников по направлениям</h4>
-TODO: add is active filter. Implement chips for search like in material.
+<!--TODO: add is active filter. Implement chips for search like in material.-->
+<div class="row">
+  <form class="form-inline">
+    <div class="form-group">
+      <skdsm-chip [text]="'Short'"></skdsm-chip>
+      <skdsm-chip [text]="'Miiiiiiidle'"></skdsm-chip>
+      <skdsm-chip [text]="'Looooooooooooooooooong'"></skdsm-chip>
+      <input type="text" class="form-control" placeholder="Направление" name="searchName" required>
+    </div>
+  </form>
+</div>

@@ -1,3 +1,4 @@
+import { SharedModule } from '../shared/shared.module';
 import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -9,7 +10,8 @@ import { ManageStreamsComponent } from './manage-streams/manage-streams.componen
 @NgModule({
   imports: [
     CommonModule,
-    FormsModule
+    FormsModule,
+    SharedModule
   ],
   declarations: [ManageStreamsComponent],
   providers: [StreamsService]
