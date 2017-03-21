@@ -7,7 +7,7 @@ import { StreamsService } from '../streams.service';
 import { Stream } from '../stream.model';
 
 @Component({
-  selector: 'app-manage-streams',
+  selector: 'skdsm-manage-streams',
   templateUrl: './manage-streams.component.html',
   styleUrls: ['./manage-streams.component.styl']
 })

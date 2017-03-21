@@ -7,7 +7,7 @@ import { NotificationsService } from 'angular2-notifications';
 import { StreamsService } from '../../streams/streams.service';
 
 @Component({
-  selector: 'app-manage-skills',
+  selector: 'skdsm-manage-skills',
   templateUrl: './manage-skills.component.html',
   styleUrls: ['./manage-skills.component.styl']
 })
