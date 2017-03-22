@@ -2,18 +2,22 @@ import { SharedModule } from '../shared/shared.module';
 import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { StreamsService } from './streams.service';
-
 import { ManageStreamsComponent } from './manage-streams/manage-streams.component';
+import { Ng2AutoCompleteModule } from 'ng2-auto-complete';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
-    SharedModule
+    SharedModule,
+    Ng2AutoCompleteModule
   ],
-  declarations: [ManageStreamsComponent],
-  providers: [StreamsService]
+  declarations: [
+    ManageStreamsComponent
+  ],
+  providers: [
+    StreamsService
+  ]
 })
 export class StreamsModule { }

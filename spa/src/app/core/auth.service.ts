@@ -7,7 +7,7 @@ import { Injectable } from '@angular/core';
 
 import {AuthService as Ng2UiAuthService} from 'ng2-ui-auth';
 
-import { User } from './user.model';
+import { User } from '../users/user.model';
 
 @Injectable()
 export class AuthService {

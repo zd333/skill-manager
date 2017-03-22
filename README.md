@@ -16,13 +16,14 @@ SPA is available under [http://localhost:4200](http://localhost:4200)
 API is available under [http://localhost:3042](http://localhost:3042)
 
 Please note, when you update package.json (as well as other files outside src folders, e.g. .angular-cli.json) in host system - the changes are not automatically reflected in containers (this is true for both back-end and spa apps).
-Use next commands to update npm pacjakes in container:
+Use next commands to update npm packages in SPA/back-end container (use your actual container names):
 
-* `docker cp spa/package.json container_name:/spa-dist/` / `docker cp backend/package.json container_name:/backend-dist/`
-* `docker exec container_name npm install`
+* `docker cp spa/package.json skdsm_spa_1:/spa-dist/` / `docker cp backend/package.json skdsm_express_1:/backend-dist/`
+* `docker exec skdsm_spa_1 npm install` / `docker exec skdsm_express_1 npm install`
 
 ### Developing SPA
 
+TODO: add yarn to SPA
 If you have angular-cli globally installed - then be sure to check that your version is 1.0.0-rc.2.
 If you have another version of globally installed angular - then remove it with next commands:
 
@@ -45,9 +46,9 @@ Run `ng build --environment prod` to build SPA. Result artifacts will be stored 
 
 ### Back-end API app
 
-If the values of `SKDSM_PORT`, `SKDSM_MONGO_CONN`, `SKDSM_GOOGLE_CLIENT_SECRET` environment variables are not defined - then dev values are used.
+If the values of `SKDSM_PORT`, `SKDSM_MONGO_CONN`, `SKDSM_GOOGLE_CLIENT_SECRET` environment variables are not defined - then dev values are used. Use this commands ro run back-end app (set actual value for Mongo connection string and Google client secret):
 
-1. `export SKDSM_PORT=8080 SKDSM_MONGO_CONN=mongodb://mongo:<mongo_port>/skdsmdb SKDSM_GOOGLE_CLIENT_SECRET=<secret_from_google_console>`
+1. `export SKDSM_PORT=8080 SKDSM_MONGO_CONN=mongodb://<mongo_host>:<mongo_port>/skdsmdb SKDSM_GOOGLE_CLIENT_SECRET=<secret_from_google_console>`
 1. `cd backend/src`
 1. `node app.js`
 

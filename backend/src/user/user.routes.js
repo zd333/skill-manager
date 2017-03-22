@@ -23,6 +23,7 @@ module.exports = app => {
     const matchFilter = { $and: [] };
     // `isActive` filter
     if (Object.hasOwnProperty.call(request.query, 'include_inactive')) {
+      console.log('uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu');
       matchFilter.$and.push({});
     } else {
       matchFilter.$and.push({ isActive: true });

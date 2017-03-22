@@ -1,3 +1,5 @@
+import { UsersService } from '../../users/users.service';
+import { User } from '../../users/user.model';
 import { NgForm } from '@angular/forms';
 import { Observable, Subscription } from 'rxjs/Rx';
 import { Component, OnDestroy, OnInit } from '@angular/core';
@@ -13,10 +15,20 @@ import { Stream } from '../stream.model';
 })
 export class ManageStreamsComponent implements OnInit, OnDestroy {
   streams: Array<Stream> = [];
-  haveComposePermission: boolean = false;
+  streamsLeftForSearch: Array<Stream> = [];
+  streamsSelectedForSearch: Array<Stream> = [];
+  selectedStream: string;
+  foundUsers: Array<User> = [];
+  includeInactiveUsers = false;
+  haveComposePermission = false;
+  streamListIsExpanded = false;
   private permissionSub: Subscription;
 
-  constructor(private streamsService: StreamsService, private authService: AuthService, private notify: NotificationsService) { }
+  constructor(private streamsService: StreamsService, private authService: AuthService, private notify: NotificationsService, private usersService: UsersService) { }
+
+  ttt(ppp) {
+    console.log(ppp);
+  }
 
   ngOnInit() {
     this.loadStreamsList();
@@ -31,6 +43,7 @@ export class ManageStreamsComponent implements OnInit, OnDestroy {
     this.streamsService.getStreamsList()
       .subscribe(streams => {
         this.streams = streams;
+        this.streamsLeftForSearch = streams;
       });
   }
 
@@ -43,9 +56,43 @@ export class ManageStreamsComponent implements OnInit, OnDestroy {
         this.streams = this.streams.concat(addedStream);
         form.reset();
       }, error => {
-        const errorMsg = error.json().errmsg;
-        this.notify.error('Ошибка', errorMsg || 'Не удалось добавить направление');
+        const errorObj = error.json();
+        this.notify.error('Ошибка', errorObj.errorMsg || errorObj.message || 'Не удалось добавить направление');
       })
+  }
+
+  filterStreamSelected(selectedStream) {
+    this.streamsSelectedForSearch = this.streamsSelectedForSearch.concat(selectedStream);
+    this.streamsLeftForSearch = this.streamsLeftForSearch
+      .filter(stream => stream !== selectedStream);
+    this.selectedStream = '';
+    this.searchUsers();
+  }
+
+  filterStreamClosed(closedStream) {
+    this.streamsSelectedForSearch = this.streamsSelectedForSearch
+      .filter(stream => stream !== closedStream);
+    this.streamsLeftForSearch = this.streamsLeftForSearch.concat(closedStream);
+    this.searchUsers();
+  }
+
+  searchUsers() {
+    if (!this.streamsSelectedForSearch.length) {
+      this.foundUsers = [];
+      return;
+    }
+    this.usersService.findUsers(this.streamsSelectedForSearch.map(stream => stream._id), [], this.includeInactiveUsers)
+      .subscribe(users => {
+        this.foundUsers = users;
+      }, error => {
+        const errorObj = error.json();
+        this.notify.error('Ошибка', errorObj.errorMsg || errorObj.message || 'Не удалось найти сотрудников');
+      });
+  }
+
+  inactiveFilterChanged(event) {
+    this.includeInactiveUsers = event.target.checked;
+    this.searchUsers();
   }
 
   ngOnDestroy() {

@@ -1,12 +1,10 @@
 import { Observable } from 'rxjs/Rx';
 import { Http } from '@angular/http';
 import { Injectable } from '@angular/core';
-
 import { Stream } from './stream.model';
 
 @Injectable()
 export class StreamsService {
-
   constructor(private http: Http) { }
 
   getStreamsList(): Observable<Array<Stream>> {
@@ -20,5 +18,4 @@ export class StreamsService {
       .post('/api/v0/streams', newStream)
       .map(responseStream => responseStream.json() as Stream);
   }
-
 }
