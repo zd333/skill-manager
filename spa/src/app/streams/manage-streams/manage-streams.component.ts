@@ -26,10 +26,6 @@ export class ManageStreamsComponent implements OnInit, OnDestroy {
 
   constructor(private streamsService: StreamsService, private authService: AuthService, private notify: NotificationsService, private usersService: UsersService) { }
 
-  ttt(ppp) {
-    console.log(ppp);
-  }
-
   ngOnInit() {
     this.loadStreamsList();
 
@@ -57,7 +53,7 @@ export class ManageStreamsComponent implements OnInit, OnDestroy {
         form.reset();
       }, error => {
         const errorObj = error.json();
-        this.notify.error('Ошибка', errorObj.errorMsg || errorObj.message || 'Не удалось добавить направление');
+        this.notify.error('Ошибка', errorObj.errmsg || errorObj.message || 'Не удалось добавить направление');
       })
   }
 
@@ -86,7 +82,7 @@ export class ManageStreamsComponent implements OnInit, OnDestroy {
         this.foundUsers = users;
       }, error => {
         const errorObj = error.json();
-        this.notify.error('Ошибка', errorObj.errorMsg || errorObj.message || 'Не удалось найти сотрудников');
+        this.notify.error('Ошибка', errorObj.errmsg || errorObj.message || 'Сбой при поиске');
       });
   }
 

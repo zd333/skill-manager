@@ -6,10 +6,7 @@ import { UsersService } from './users.service';
   imports: [
     CommonModule
   ],
-  exports: [
-    UsersService
-  ],
-  declarations: [
+  providers: [
     UsersService
   ]
 })

@@ -1,3 +1,4 @@
+import { UsersModule } from '../users/users.module';
 import { SharedModule } from '../shared/shared.module';
 import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
@@ -11,7 +12,8 @@ import { Ng2AutoCompleteModule } from 'ng2-auto-complete';
     CommonModule,
     FormsModule,
     SharedModule,
-    Ng2AutoCompleteModule
+    Ng2AutoCompleteModule,
+    UsersModule
   ],
   declarations: [
     ManageStreamsComponent

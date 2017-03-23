@@ -7,7 +7,6 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./header.component.styl']
 })
 export class HeaderComponent implements OnInit {
-
   isLoggedIn: boolean;
   userName: string;
 
@@ -30,5 +29,4 @@ export class HeaderComponent implements OnInit {
     event.preventDefault();
     this.authService.logout();
   }
-
 }
