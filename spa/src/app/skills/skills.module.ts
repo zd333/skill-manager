@@ -1,4 +1,6 @@
-import { FormsModule } from '@angular/forms';
+import { SharedModule } from '../shared/shared.module';
+import { Ng2AutoCompleteModule } from 'ng2-auto-complete';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SkillsService } from './skills.service';
@@ -7,8 +9,11 @@ import { AccordionModule } from 'ng2-bootstrap';
 
 @NgModule({
   imports: [
+    CommonModule,
+    ReactiveFormsModule,
     FormsModule,
-    CommonModule
+    Ng2AutoCompleteModule,
+    SharedModule
   ],
   declarations: [ManageSkillsComponent],
   providers: [SkillsService]

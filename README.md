@@ -36,6 +36,7 @@ Install required version of angular-cli `npm install -g @angular/cli@1.0.0-rc.2`
 If you want your IDE to resolve imports - then you have to install node modules in your host system. Run `cd spa`, `npm install` in host system.
 
 To serve SPA in dev/prod mode run `ng serve`/`ng serve --environment prod`.
+To lint SPA run `ng lint`
 
 ## Deploy
 

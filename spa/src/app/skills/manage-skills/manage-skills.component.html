@@ -1,58 +1,134 @@
-<h4>Добавить умение</h4>
-<div class="row">
-  <form novalidate #addSkillForm="ngForm" (ngSubmit)="addSkill(addSkillForm)">
-    <fieldset class="form-group" [disabled]="!haveComposePermission">
-      <div class="col-xs-6">
-        <input type="text" class="form-control" placeholder="Название" name="name" required #name ngModel>
-      </div>
-      <div class="col-xs-6">
-        <select class="form-control" name="streamId" required>
-          <option *ngFor="let stream of streams" [value]="stream._id">{{stream.name}}</option>
-        </select>
-      </div>
-    </fieldset>
-    <div class="col-xs-12">
-      <button type="submit" class="btn btn-default pull-right" [disabled]="!haveComposePermission">
-      Добавить
-    </button>
-    </div>
-  </form>
-</div>
-
-<h4>Умения</h4>
+<h4>Список умений</h4>
 <div class="panel-group">
-
-  <div class="panel panel-default">
+  <div
+    class="panel panel-default"
+    *ngFor="let group of groupedSkills"
+  >
     <div class="panel-heading">
       <h4 class="panel-title">
-        <a (click)="sss()"><span class="glyphicon glyphicon-minus-sign"></span> Frontend</a>
+        <a (click)="group.expanded = !group.expanded">
+          <span
+            class="glyphicon expand-collapse"
+            [ngClass]="{'glyphicon-minus-sign': group.expanded, 'glyphicon-plus-sign': !group.expanded}"
+          ></span> {{group.streamName}}
+        </a>
       </h4>
     </div>
-    <div class="panel-collapse">
+    <div
+      class="panel-collapse"
+      *ngIf="group.expanded"
+    >
       <ul class="list-group">
-        <li class="list-group-item">Angular 1</li>
-        <li class="list-group-item">React</li>
-        <li class="list-group-item">Vue</li>
+        <li
+          class="list-group-item"
+          *ngFor="let skill of group.skills"
+        >{{skill.name}}</li>
       </ul>
-    </div>
-  </div>
-
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h4 class="panel-title">
-        <a (click)="sss()"><span class="glyphicon glyphicon-plus-sign"></span> Frontend</a>
-      </h4>
-    </div>
-    <div class="panel-collapse collapse">
-      <ul class="list-group">
-        <li class="list-group-item">Angular 1</li>
-        <li class="list-group-item">React</li>
-        <li class="list-group-item">Vue</li>
-      </ul>
-    </div>
-  </div>
-
 </div>
+</div>
+</div>
+
+<br>
 
 <h4>Найти сотрудников по умениям</h4>
-TODO: add is active filter. Implement chips for search like in material.
+<div class="row">
+  <div class="col-xs-12">
+    <label class="checkbox-inline search-option">
+      <input type="checkbox"
+        value=""
+        (change)="inactiveFilterChanged($event)"
+      >
+      включая уволенных
+    </label>
+  </div>
+</div>
+
+<br>
+
+<div class="row">
+  <div class="col-xs-12 col-md-4">
+    <input
+      auto-complete
+      [source]="skillsLeftForSearch"
+      list-formatter="name"
+      no-match-found-text="Нет вхождений"
+      min-chars="2"
+      (valueChanged)="filterSkillSelected($event)"
+      [(ngModel)]="selectedSkillName"
+      type="text"
+      class="form-control"
+      placeholder="Умение"
+      name="searchName"
+    >
+  </div>
+  <div class="col-xs-12 col-md-8">
+    <skdsm-chip
+      [text]="skill.name"
+      [payload]="skill"
+      (close)="filterSkillClosed($event)"
+      *ngFor="let skill of skillsSelectedForSearch"
+    ></skdsm-chip>
+  </div>
+</div>
+<div>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Сотрудник</th>
+        <th>Email</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of foundUsers">
+        <td>{{user.name}}</td>
+        <td>{{user.email}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<br>
+
+<h4>Добавить умение</h4>
+<div class="row">
+  <form
+    novalidate
+    [formGroup]="addSkillForm"
+    (ngSubmit)="addSkill($event)"
+  >
+    <fieldset
+      class="form-group"
+      [disabled]="!haveComposePermission"
+    >
+      <div class="col-xs-6">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Название"
+          formControlName="name"
+        >
+      </div>
+      <div class="col-xs-6">
+        <select
+          class="form-control"
+          formControlName="streamId"
+        >
+          <option
+            *ngFor="let stream of streams"
+            [value]="stream._id"
+          >{{stream.name}}
+            </option>
+            </select>
+      </div>
+      </fieldset>
+      <div class="col-xs-12">
+        <button
+          type="submit"
+          class="btn btn-default pull-right"
+          [disabled]="!haveComposePermission"
+        >
+          Добавить
+          </button>
+      </div>
+      </form>
+</div>
