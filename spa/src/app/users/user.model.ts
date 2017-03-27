@@ -1,12 +1,12 @@
 import * as moment from 'moment';
 
-export interface User {
+export class User {
   _id: string;
   name: string;
   email: string;
   permissions?: Array<string>;
   isActive: boolean;
-  skillMarks: [SkillMark];
+  skillMarks?: [SkillMark];
 }
 
 class SkillMark {

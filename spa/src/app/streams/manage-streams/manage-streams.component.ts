@@ -24,7 +24,8 @@ export class ManageStreamsComponent implements OnInit, OnDestroy {
   streamListIsExpanded = false;
   private permissionSub: Subscription;
 
-  constructor(private streamsService: StreamsService, private authService: AuthService, private notify: NotificationsService, private usersService: UsersService) { }
+  constructor(private streamsService: StreamsService, private authService: AuthService,
+    private notify: NotificationsService, private usersService: UsersService) { }
 
   ngOnInit() {
     this.loadStreamsList();
@@ -54,7 +55,7 @@ export class ManageStreamsComponent implements OnInit, OnDestroy {
       }, error => {
         const errorObj = error.json();
         this.notify.error('Ошибка', errorObj.errmsg || errorObj.message || 'Не удалось добавить направление');
-      })
+      });
   }
 
   filterStreamSelected(selectedStream) {

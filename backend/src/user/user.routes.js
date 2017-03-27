@@ -23,7 +23,6 @@ module.exports = app => {
     const matchFilter = { $and: [] };
     // `isActive` filter
     if (Object.hasOwnProperty.call(request.query, 'include_inactive')) {
-      console.log('uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu');
       matchFilter.$and.push({});
     } else {
       matchFilter.$and.push({ isActive: true });
@@ -101,10 +100,22 @@ module.exports = app => {
   });
 
   /**
+   * User list for admin to use in permission management
+   */
+  app.options('/api/v0/users', isAuthenticatedAndHasPermissions(['admin']), (request, response) => {
+    return User.find({}, { skillMarks: 0 })
+      .then(foundUsers => {
+        return response.status(200).json(foundUsers);
+      })
+      .catch(error => errorHandler(response, error));
+  });
+
+
+  /**
    * User data with whole history of skill marks
    */
   app.get('/api/v0/users/:id', isAuthenticatedAndHasPermissions([]), (request, response) => {
-    return User.findById(request.params.id, { _id: 0 })
+    return User.findById(request.params.id, { _id: 0, permissions: 0})
       .then(foundUser => {
         if (!foundUser) {
           return errorHandler(response, { message: 'User does not exist' }, 404);

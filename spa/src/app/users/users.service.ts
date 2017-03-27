@@ -9,7 +9,7 @@ export class UsersService {
   constructor(private http: Http) { }
 
   findUsers(streams?: Array<string>, skills?: Array<string>, includeInactive: boolean = false): Observable<Array<User>> {
-    let paramGroups = [];
+    const paramGroups = [];
     if (streams && streams.length) {
       paramGroups.push(`streams=${streams.join()}`);
     }
@@ -20,11 +20,22 @@ export class UsersService {
       paramGroups.push('include_inactive');
     }
 
-    let options = new RequestOptions({
+    const options = new RequestOptions({
       search: new URLSearchParams(paramGroups.join('&'))
-    })
+    });
     return this.http
       .get('/api/v0/users', options)
       .map(responseUsers => responseUsers.json() as Array<User>);
+  }
+
+  getUsersList(): Observable<Array<User>> {
+    return this.http
+      .options('/api/v0/users')
+      .map(responseUsers => responseUsers.json() as Array<User>);
+  }
+
+  setUserActivity(userId: string, isActive: boolean): Observable<any> {
+    return this.http
+      .post(`/api/v0/users/${userId}/is_active`, { isActive});
   }
 }
