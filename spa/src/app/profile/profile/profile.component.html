@@ -1,0 +1,25 @@
+<h4>Мои умения</h4>
+<div>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Умение</th>
+        <th>Направление</th>
+        <th>Уровень</th>
+        <th>Дата</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let group of myGroupedSkillMarks">
+        <td>{{group.skillName}}</td>
+        <td>{{group.streamName}}</td>
+        <td>
+          {{group.skillMarks[0].value}}
+          <!--TODO: add help text `There are more older marks` and button `Marks history`-->
+          <span *ngIf="group.skillMarks.length > 1">*</span>
+        </td>
+        <td>{{group.skillMarks[0].postedAtMoment | amDateFormat:'LL'}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

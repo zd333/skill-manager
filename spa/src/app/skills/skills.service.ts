@@ -1,5 +1,4 @@
 import { Stream } from '../streams/stream.model';
-import * as stream from 'stream';
 import { Skill, SkillsGroupedByStream } from './skill.model';
 import { Observable } from 'rxjs/Rx';
 import { Http } from '@angular/http';
@@ -35,7 +34,6 @@ export class SkillsService {
     }
     return groupedSkills;
   }
-
 
   addSkill(newSkill: { name: string, streamId: string }): Observable<Skill> {
     return this.http

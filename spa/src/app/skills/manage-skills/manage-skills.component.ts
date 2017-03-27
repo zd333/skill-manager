@@ -55,6 +55,9 @@ export class ManageSkillsComponent implements OnInit, OnDestroy {
       .subscribe(skills => {
         this.skillsLeftForSearch = skills;
         this.groupedSkills = this.skillsService.groupSkillsByStream(skills);
+      }, error => {
+        const errorObj = error.json();
+        this.notify.error('Ошибка', errorObj.errmsg || errorObj.message || 'Не удалось загрузить список умений');
       });
   }
 

@@ -1,3 +1,4 @@
+import { ProfileModule } from './profile/profile.module';
 import { PermissionsModule } from './permissions/permissions.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -29,6 +30,7 @@ import { AppComponent } from './app.component';
     HomeModule,
     StreamsModule,
     SkillsModule,
+    ProfileModule,
     PermissionsModule
   ],
   bootstrap: [AppComponent]

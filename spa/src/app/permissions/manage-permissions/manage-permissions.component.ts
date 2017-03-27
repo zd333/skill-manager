@@ -30,7 +30,7 @@ export class ManagePermissionsComponent implements OnInit {
       }, error => {
         const errorObj = error.json();
         this.notify.error('Ошибка', errorObj.errmsg || errorObj.message || 'Не удалось загрузить пользователей');
-      })
+      });
   }
 
   setSelectedUser(event) {
@@ -44,7 +44,7 @@ export class ManagePermissionsComponent implements OnInit {
     };
     this.selectedUser.permissions
       .forEach(permissionName => {
-        model[permissionName] = true
+        model[permissionName] = true;
       });
     this.checkboxesModel = model;
   }

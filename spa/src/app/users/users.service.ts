@@ -1,3 +1,5 @@
+import { RawSkillMark, BaseSkillMark, SkillMarksGroupedBySkill } from './skill-mark.model';
+import { AuthService } from '../core/auth.service';
 import { User } from './user.model';
 import { Observable } from 'rxjs/Rx';
 import { Http } from '@angular/http';
@@ -6,7 +8,7 @@ import { RequestOptions, URLSearchParams } from '@angular/http';
 
 @Injectable()
 export class UsersService {
-  constructor(private http: Http) { }
+  constructor(private http: Http, private authService: AuthService) { }
 
   findUsers(streams?: Array<string>, skills?: Array<string>, includeInactive: boolean = false): Observable<Array<User>> {
     const paramGroups = [];
@@ -36,6 +38,42 @@ export class UsersService {
 
   setUserActivity(userId: string, isActive: boolean): Observable<any> {
     return this.http
-      .post(`/api/v0/users/${userId}/is_active`, { isActive});
+      .post(`/api/v0/users/${userId}/is_active`, { isActive });
+  }
+
+  getUserDetails(id: string): Observable<User> {
+    return this.http
+      .get(`/api/v0/users/${id}`)
+      .map(responseUser => responseUser.json() as User);
+  }
+
+  getMyProfileData(): Observable<User> {
+    return this.authService.sessionUser
+      .flatMap(user => this.getUserDetails(user._id));
+  }
+
+  groupSkillMarksBySkill(skillMarks: Array<RawSkillMark>): SkillMarksGroupedBySkill {
+    const groupedSkillMarks = [];
+    let skillMarksClone = skillMarks;
+    while (skillMarksClone.length) {
+      const { streamId, streamName, skillId, skillName } = skillMarksClone[0];
+      groupedSkillMarks.push({
+        streamId,
+        streamName,
+        skillId,
+        skillName,
+        skillMarks: skillMarksClone
+          .filter(skillMark => skillMark.skillId === skillId)
+          .map(mark => new BaseSkillMark(
+            mark._id,
+            mark.value,
+            mark.postedAt,
+            mark.approvement
+          ))
+          .sort((markA, markB) => markB.postedAtMoment.unix() - markA.postedAtMoment.unix())
+      });
+      skillMarksClone = skillMarksClone.filter(skillMark => skillMark.skillId !== skillId);
+    }
+    return groupedSkillMarks;
   }
 }
