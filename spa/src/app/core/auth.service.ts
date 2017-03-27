@@ -1,3 +1,4 @@
+import { NotificationsService } from 'angular2-notifications';
 import { filter } from 'rxjs/operator/filter';
 import { Router } from '@angular/router';
 import { ReplaySubject, Observable } from 'rxjs/Rx';
@@ -12,21 +13,27 @@ import { User } from '../users/user.model';
 @Injectable()
 export class AuthService {
 
-  private _loggedInUser: ReplaySubject<User> = new ReplaySubject(null);
+  private loggedInUser: ReplaySubject<User> = new ReplaySubject(null);
 
-  constructor(private http: Http, private ng2AuthService: Ng2UiAuthService, private router: Router) {
+  constructor(private http: Http, private ng2AuthService: Ng2UiAuthService, private router: Router, private notify: NotificationsService) {
     this.http
       .get('/api/v0/user_session')
       .map(responseUser => responseUser.json())
-      .subscribe(user => this._loggedInUser.next(user), () => this._loggedInUser.next(null));
+      .subscribe(user => this.loggedInUser.next(user), () => this.loggedInUser.next(null));
   }
 
   get sessionUser(): Observable<User> {
-    return this._loggedInUser.asObservable();
+    return this.loggedInUser.asObservable();
+  }
+
+  get isLoggedIn(): Observable<boolean> {
+    return this.loggedInUser
+      .asObservable()
+      .map(user => Boolean(user));
   }
 
   sessionUserHasPermission(permissionString): Observable<boolean> {
-    return this._loggedInUser
+    return this.loggedInUser
       .asObservable()
       .map(user => {
         if (!user || !Array.isArray(user.permissions)) {
@@ -42,7 +49,11 @@ export class AuthService {
     this.ng2AuthService
       .authenticate('google')
       .map(responseUser => responseUser.json())
-      .subscribe(user => this._loggedInUser.next(user), () => this._loggedInUser.next(null));
+      .subscribe(user => this.loggedInUser.next(user), error => {
+        this.loggedInUser.next(null);
+        const errorObj = error.json();
+        this.notify.error('Ошибка', errorObj.errmsg || errorObj.message || 'Не удалось загрузить пользователей');
+      });
   }
 
   logout(): void {
@@ -50,7 +61,7 @@ export class AuthService {
       .post('/api/v0/logout', {})
       .subscribe(() => {
         this.router.navigate(['/']);
-        return this._loggedInUser.next(null);
+        return this.loggedInUser.next(null);
       });
   }
 

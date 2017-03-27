@@ -27,4 +27,15 @@ export class UsersService {
       .get('/api/v0/users', options)
       .map(responseUsers => responseUsers.json() as Array<User>);
   }
+
+  getUsersList(): Observable<Array<User>> {
+    return this.http
+      .options('/api/v0/users')
+      .map(responseUsers => responseUsers.json() as Array<User>);
+  }
+
+  setUserActivity(userId: string, isActive: boolean): Observable<any> {
+    return this.http
+      .post(`/api/v0/users/${userId}/is_active`, { isActive});
+  }
 }

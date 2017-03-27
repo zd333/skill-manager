@@ -1,0 +1,57 @@
+<h4>Управление правами</h4>
+<fieldset class="row"
+  [disabled]="saveInProgress">
+  <div class="col-xs-6">
+    <select class="form-control"
+      (change)="setSelectedUser($event)">
+      <option
+        *ngFor="let user of users"
+        [value]="user._id">
+      {{user.name}} ({{user.email}})
+      </option>
+    </select>
+  </div>
+
+  <div class="col-xs-6">
+    <div class="checkbox">
+      <label>
+        <input type="checkbox"
+          [(ngModel)]="isActiveModel"
+          (change)="setActivity($event)">
+        <b>Активен (не уволен)</b>
+      </label>
+    </div>
+    <div class="checkbox">
+      <label>
+        <input type="checkbox"
+          [(ngModel)]="checkboxesModel.admin"
+          (change)="setPermissions()">
+        Администратор
+      </label>
+    </div>
+    <div class="checkbox">
+      <label>
+        <input type="checkbox"
+          [(ngModel)]="checkboxesModel.skillComposer"
+          (change)="setPermissions()">
+        Добавление направлений/умений в справочники
+      </label>
+    </div>
+    <div class="checkbox">
+      <label>
+        <input type="checkbox"
+          [(ngModel)]="checkboxesModel.skillApprover"
+          (change)="setPermissions()">
+        Подтверждение заявленных умений сотрудников
+      </label>
+    </div>
+    <div class="checkbox">
+      <label>
+        <input type="checkbox"
+          [(ngModel)]="checkboxesModel.pdpCreator"
+          (change)="setPermissions()">
+        Назначение сотрудникам планов развития
+      </label>
+    </div>
+  </div>
+</fieldset>
