@@ -30,9 +30,17 @@ export class UsersService {
       .map(responseUsers => responseUsers.json() as Array<User>);
   }
 
-  getUsersList(): Observable<Array<User>> {
-    return this.http
-      .options('/api/v0/users')
+  getUsersList(searchQuery?: string): Observable<Array<User>> {
+    let request;
+    if (searchQuery) {
+      const options = new RequestOptions({
+        search: new URLSearchParams(`q=${searchQuery}`)
+      });
+      request = this.http.options('/api/v0/users', options);
+    } else {
+      request = this.http.options('/api/v0/users');
+    }
+    return request
       .map(responseUsers => responseUsers.json() as Array<User>);
   }
 
