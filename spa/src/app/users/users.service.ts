@@ -52,6 +52,12 @@ export class UsersService {
       .flatMap(user => this.getUserDetails(user._id));
   }
 
+  addSkillMark(newMark: { skillId: string, value: number }): Observable<RawSkillMark> {
+    return this.http
+      .post('/api/v0/my_skill_marks', newMark)
+      .map(responseMark => responseMark.json() as RawSkillMark);
+  }
+
   groupSkillMarksBySkill(skillMarks: Array<RawSkillMark>): SkillMarksGroupedBySkill {
     const groupedSkillMarks = [];
     let skillMarksClone = skillMarks;

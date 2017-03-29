@@ -1,3 +1,4 @@
+import { ReactiveFormsModule } from '@angular/forms';
 import { MomentModule } from 'angular2-moment';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -6,7 +7,8 @@ import { ProfileComponent } from './profile/profile.component';
 @NgModule({
   imports: [
     CommonModule,
-    MomentModule
+    MomentModule,
+    ReactiveFormsModule
   ],
   declarations: [ProfileComponent]
 })

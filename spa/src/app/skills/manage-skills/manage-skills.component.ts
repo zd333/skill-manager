@@ -61,7 +61,7 @@ export class ManageSkillsComponent implements OnInit, OnDestroy {
       });
   }
 
-  addSkill(event) {
+  addSkill() {
     this.addSkillForm.get('name').markAsTouched();
     this.addSkillForm.get('streamId').markAsTouched();
     if (!this.addSkillForm.valid) {

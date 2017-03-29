@@ -1,31 +1,24 @@
 <h4>Список умений</h4>
 <div class="panel-group">
-  <div
-    class="panel panel-default"
-    *ngFor="let group of groupedSkills"
-  >
+  <div class="panel panel-default"
+    *ngFor="let group of groupedSkills">
     <div class="panel-heading">
       <h4 class="panel-title">
         <a (click)="group.expanded = !group.expanded">
-          <span
-            class="glyphicon expand-collapse"
-            [ngClass]="{'glyphicon-minus-sign': group.expanded, 'glyphicon-plus-sign': !group.expanded}"
-          ></span> {{group.streamName}}
+          <span class="glyphicon expand-collapse"
+            [ngClass]="{'glyphicon-minus-sign': group.expanded, 'glyphicon-plus-sign': !group.expanded}">
+          </span> {{group.streamName}}
         </a>
       </h4>
     </div>
-    <div
-      class="panel-collapse"
-      *ngIf="group.expanded"
-    >
+    <div class="panel-collapse"
+      *ngIf="group.expanded">
       <ul class="list-group">
-        <li
-          class="list-group-item"
-          *ngFor="let skill of group.skills"
-        >{{skill.name}}</li>
+        <li class="list-group-item"
+          *ngFor="let skill of group.skills">{{skill.name}}</li>
       </ul>
-</div>
-</div>
+    </div>
+  </div>
 </div>
 
 <br>
@@ -36,9 +29,7 @@
     <label class="checkbox-inline search-option">
       <input type="checkbox"
         value=""
-        (change)="inactiveFilterChanged($event)"
-      >
-      включая уволенных
+        (change)="inactiveFilterChanged($event)">включая уволенных
     </label>
   </div>
 </div>
@@ -47,8 +38,7 @@
 
 <div class="row">
   <div class="col-xs-12 col-md-4">
-    <input
-      auto-complete
+    <input auto-complete
       [source]="skillsLeftForSearch"
       list-formatter="name"
       no-match-found-text="Нет вхождений"
@@ -58,16 +48,13 @@
       type="text"
       class="form-control"
       placeholder="Умение"
-      name="searchName"
-    >
+      name="searchName">
   </div>
   <div class="col-xs-12 col-md-8">
-    <skdsm-chip
-      [text]="skill.name"
+    <skdsm-chip [text]="skill.name"
       [payload]="skill"
       (close)="filterSkillClosed($event)"
-      *ngFor="let skill of skillsSelectedForSearch"
-    ></skdsm-chip>
+      *ngFor="let skill of skillsSelectedForSearch"></skdsm-chip>
   </div>
 </div>
 <div>
@@ -91,44 +78,30 @@
 
 <h4>Добавить умение</h4>
 <div class="row">
-  <form
-    novalidate
+  <form novalidate
     [formGroup]="addSkillForm"
-    (ngSubmit)="addSkill($event)"
-  >
-    <fieldset
-      class="form-group"
-      [disabled]="!haveComposePermission"
-    >
+    (ngSubmit)="addSkill()">
+    <fieldset class="form-group"
+      [disabled]="!haveComposePermission">
       <div class="col-xs-6">
-        <input
-          type="text"
+        <input type="text"
           class="form-control"
           placeholder="Название"
-          formControlName="name"
-        >
+          formControlName="name">
       </div>
       <div class="col-xs-6">
-        <select
-          class="form-control"
-          formControlName="streamId"
-        >
+        <select class="form-control"
+          formControlName="streamId">
           <option
             *ngFor="let stream of streams"
-            [value]="stream._id"
-          >{{stream.name}}
-            </option>
-            </select>
+            [value]="stream._id">{{stream.name}}</option>
+        </select>
       </div>
-      </fieldset>
-      <div class="col-xs-12">
-        <button
-          type="submit"
-          class="btn btn-default pull-right"
-          [disabled]="!haveComposePermission"
-        >
-          Добавить
-          </button>
-      </div>
-      </form>
+    </fieldset>
+    <div class="col-xs-12">
+      <button type="submit"
+        class="btn btn-default pull-right"
+        [disabled]="!haveComposePermission">Добавить</button>
+    </div>
+  </form>
 </div>

@@ -9,14 +9,14 @@ interface Approvement {
  * This represents structure of back-end response
  */
 export interface RawSkillMark {
-    _id: string,
-    value: number,
-    postedAt: string,
-    streamId: string,
-    streamName: string,
-    skillId: string,
-    skillName: string,
-    approvement?: Approvement
+    _id: string;
+    value: number;
+    postedAt: string;
+    streamId: string;
+    streamName: string;
+    skillId: string;
+    skillName: string;
+    approvement?: Approvement;
 }
 
 /**

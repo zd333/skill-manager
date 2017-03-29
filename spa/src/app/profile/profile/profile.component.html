@@ -1,4 +1,34 @@
-<h4>Мои умения</h4>
+<h4>Добавить оценку</h4>
+<div class="row">
+  <form novalidate
+    [formGroup]="addMarkForm"
+    (ngSubmit)="addMark()">
+    <fieldset class="form-group">
+      <div class="col-xs-8">
+        <select class="form-control"
+          formControlName="newMarkSkillId">
+          <option
+            *ngFor="let skill of skills"
+            [value]="skill._id">{{skill.name + ' / ' + skill.streamName}}</option>
+        </select>
+      </div>
+      <div class="col-xs-4">
+        <select class="form-control"
+          formControlName="newMarkValue">
+          <option
+            *ngFor="let val of [0, 1, 2, 3, 4]"
+            [value]="val">{{val}}</option>
+        </select>
+      </div>
+    </fieldset>
+    <div class="col-xs-12">
+      <button type="submit"
+        class="btn btn-default pull-right">Добавить</button>
+    </div>
+  </form>
+</div>
+
+<h4>Мои оценки</h4>
 <div>
   <table class="table">
     <thead>
@@ -10,16 +40,32 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let group of myGroupedSkillMarks">
-        <td>{{group.skillName}}</td>
-        <td>{{group.streamName}}</td>
-        <td>
-          {{group.skillMarks[0].value}}
-          <!--TODO: add help text `There are more older marks` and button `Marks history`-->
-          <span *ngIf="group.skillMarks.length > 1">*</span>
-        </td>
-        <td>{{group.skillMarks[0].postedAtMoment | amDateFormat:'LL'}}</td>
-      </tr>
+      <ng-container *ngFor="let group of myGroupedSkillMarks; let i = index;">
+        <tr>
+          <td>{{group.skillName}}</td>
+          <td>{{group.streamName}}</td>
+          <td>
+            {{group.skillMarks[0].value}}
+            <a (click)="groupExpanded[i] = !groupExpanded[i]"
+              *ngIf="group.skillMarks.length > 1">
+              <span [ngClass]="{'glyphicon-plus-sign': !groupExpanded[i], 'glyphicon-minus-sign': groupExpanded[i]}"
+                class="glyphicon expand-collapse"></span>
+            </a>
+          </td>
+          <td>{{group.skillMarks[0].postedAtMoment | amDateFormat:'LL'}}</td>
+        </tr>
+        <ng-container *ngFor="let mark of group.skillMarks; let first = first;">
+          <tr class="active"
+            *ngIf="groupExpanded[i] && !first">
+            <td></td>
+            <td></td>
+            <td>
+              {{mark.value}}
+            </td>
+            <td>{{mark.postedAtMoment | amDateFormat:'LL'}}</td>
+          </tr>
+        </ng-container>
+      </ng-container>
     </tbody>
   </table>
 </div>
