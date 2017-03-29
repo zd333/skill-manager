@@ -115,7 +115,7 @@ module.exports = app => {
    * User data with whole history of skill marks
    */
   app.get('/api/v0/users/:id', isAuthenticatedAndHasPermissions([]), (request, response) => {
-    return User.findById(request.params.id, { _id: 0, permissions: 0})
+    return User.findById(request.params.id, { _id: 0, permissions: 0 })
       .then(foundUser => {
         if (!foundUser) {
           return errorHandler(response, { message: 'User does not exist' }, 404);
@@ -220,9 +220,9 @@ module.exports = app => {
               postedAt: Date.now()
             }
           }
-        });
+        }, { new: true });
       })
-      .then(() => response.status(201).send())
+      .then(updatedUser => response.status(201).json(updatedUser.skillMarks[updatedUser.skillMarks.length - 1]))
       .catch(error => errorHandler(response, error, 400));
   });
 
