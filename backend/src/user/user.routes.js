@@ -101,9 +101,20 @@ module.exports = app => {
 
   /**
    * User list for admin to use in permission management
+   * Query params:
+   * `q` (optional) - string to search in naame, email
    */
   app.options('/api/v0/users', isAuthenticatedAndHasPermissions(['admin']), (request, response) => {
-    return User.find({}, { skillMarks: 0 })
+    let find;
+    if (Object.hasOwnProperty.call(request.query, 'q')) {
+      find = User.find({ $or: [
+        { name: { $regex: `.*${request.query.q}.*`, $options: '$i' } },
+        { email: { $regex: `.*${request.query.q}.*`, $options: '$i' } }
+      ] }, { skillMarks: 0 });
+    } else {
+      find = User.find({}, { skillMarks: 0 });
+    }
+    return find
       .then(foundUsers => {
         return response.status(200).json(foundUsers);
       })
