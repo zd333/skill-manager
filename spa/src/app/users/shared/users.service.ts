@@ -1,5 +1,5 @@
 import { RawSkillMark, BaseSkillMark, SkillMarksGroupedBySkill } from './skill-mark.model';
-import { AuthService } from '../core/auth.service';
+import { AuthService } from '../../core/auth.service';
 import { User } from './user.model';
 import { Observable } from 'rxjs/Rx';
 import { Http } from '@angular/http';

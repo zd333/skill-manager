@@ -3,7 +3,7 @@ import { SharedModule } from '../shared/shared.module';
 import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { StreamsService } from './streams.service';
+import { StreamsService } from './shared/streams.service';
 import { ManageStreamsComponent } from './manage-streams/manage-streams.component';
 import { Ng2AutoCompleteModule } from 'ng2-auto-complete';
 

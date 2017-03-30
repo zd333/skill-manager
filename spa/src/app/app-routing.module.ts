@@ -2,7 +2,7 @@ import { AdminGuardService } from './core/admin-guard.service';
 import { LoggedinGuardService } from './core/loggedin-guard.service';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { HomeComponent } from './home/home.component';
+import { HomeComponent } from './home/home/home.component';
 import { ManageStreamsComponent } from './streams/manage-streams/manage-streams.component';
 import { ManageSkillsComponent } from './skills/manage-skills/manage-skills.component';
 import { ProfileComponent } from './profile/profile/profile.component';

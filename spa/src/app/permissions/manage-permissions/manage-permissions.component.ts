@@ -1,6 +1,6 @@
 import { NotificationsService } from 'angular2-notifications';
-import { UsersService } from '../../users/users.service';
-import { User } from '../../users/user.model';
+import { UsersService } from '../../users/shared/users.service';
+import { User } from '../../users/shared/user.model';
 import { Component, OnInit } from '@angular/core';
 
 @Component({

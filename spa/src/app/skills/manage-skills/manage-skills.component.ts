@@ -1,14 +1,14 @@
-import { UsersService } from '../../users/users.service';
-import { User } from '../../users/user.model';
-import { SkillsService } from '../skills.service';
+import { UsersService } from '../../users/shared/users.service';
+import { User } from '../../users/shared/user.model';
+import { SkillsService } from '../shared/skills.service';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Observable, Subscription } from 'rxjs/Rx';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Skill, SkillsGroupedByStream } from '../skill.model';
-import { Stream } from '../../streams/stream.model';
+import { Skill, SkillsGroupedByStream } from '../shared/skill.model';
+import { Stream } from '../../streams/shared/stream.model';
 import { AuthService } from '../../core/auth.service';
 import { NotificationsService } from 'angular2-notifications';
-import { StreamsService } from '../../streams/streams.service';
+import { StreamsService } from '../../streams/shared/streams.service';
 
 @Component({
   selector: 'skdsm-manage-skills',

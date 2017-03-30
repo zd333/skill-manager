@@ -1,12 +1,12 @@
-import { UsersService } from '../../users/users.service';
-import { User } from '../../users/user.model';
+import { UsersService } from '../../users/shared/users.service';
+import { User } from '../../users/shared/user.model';
 import { NgForm } from '@angular/forms';
 import { Observable, Subscription } from 'rxjs/Rx';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AuthService } from '../../core/auth.service';
 import { NotificationsService } from 'angular2-notifications';
-import { StreamsService } from '../streams.service';
-import { Stream } from '../stream.model';
+import { StreamsService } from '../shared/streams.service';
+import { Stream } from '../shared/stream.model';
 
 @Component({
   selector: 'skdsm-manage-streams',

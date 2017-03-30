@@ -1,10 +1,10 @@
 import * as moment from 'moment';
 import { FormBuilder, Validators } from '@angular/forms';
-import { SkillsService } from '../../skills/skills.service';
-import { Skill } from '../../skills/skill.model';
+import { SkillsService } from '../../skills/shared/skills.service';
+import { Skill } from '../../skills/shared/skill.model';
 import { NotificationsService } from 'angular2-notifications';
-import { BaseSkillMark, SkillMark, SkillMarksGroupedBySkill } from '../../users/skill-mark.model';
-import { UsersService } from '../../users/users.service';
+import { BaseSkillMark, SkillMark, SkillMarksGroupedBySkill } from '../../users/shared/skill-mark.model';
+import { UsersService } from '../../users/shared/users.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
