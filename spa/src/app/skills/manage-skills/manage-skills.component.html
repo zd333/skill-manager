@@ -6,7 +6,7 @@
       <h4 class="panel-title">
         <a (click)="group.expanded = !group.expanded">
           <span class="glyphicon expand-collapse"
-            [ngClass]="{'glyphicon-minus-sign': group.expanded, 'glyphicon-plus-sign': !group.expanded}">
+            [ngClass]="{'glyphicon-menu-down': group.expanded, 'glyphicon-menu-right': !group.expanded}">
           </span> {{group.streamName}}
         </a>
       </h4>

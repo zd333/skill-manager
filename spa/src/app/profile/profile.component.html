@@ -46,10 +46,10 @@
           <td>
             <a (click)="groupExpanded[i] = !groupExpanded[i]"
               *ngIf="group.skillMarks.length > 1">
-              <span [ngClass]="{'glyphicon-plus-sign': !groupExpanded[i], 'glyphicon-minus-sign': groupExpanded[i]}"
+              <span [ngClass]="{'glyphicon-menu-right': !groupExpanded[i], 'glyphicon-menu-down': groupExpanded[i]}"
                 class="glyphicon expand-collapse"></span>
             </a>
-            <span class="glyphicon glyphicon-plus-sign"
+            <span class="glyphicon glyphicon-menu-right"
               style="visibility: hidden"
               *ngIf="group.skillMarks.length === 1"></span> {{group.skillName}}
           </td>

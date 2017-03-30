@@ -9,8 +9,8 @@ import { ProfileComponent } from './profile/profile.component';
 import { PermissionsComponent } from './permissions/permissions.component';
 
 export const rootRoutes: Routes = [
-  { path: 'home', component: HomeComponent },
   { path: '', redirectTo: 'home', pathMatch: 'full' },
+  { path: 'home', component: HomeComponent },
   {
     path: 'streams',
     component: ManageStreamsComponent,
