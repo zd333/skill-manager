@@ -1,3 +1,4 @@
+import { TooltipModule } from 'ng2-bootstrap';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MomentModule } from 'angular2-moment';
 import { NgModule } from '@angular/core';
@@ -8,7 +9,8 @@ import { ProfileComponent } from './profile/profile.component';
   imports: [
     CommonModule,
     MomentModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    TooltipModule
   ],
   declarations: [ProfileComponent]
 })

@@ -1,3 +1,4 @@
+import { TooltipModule } from 'ng2-bootstrap';
 import { ProfileModule } from './profile/profile.module';
 import { PermissionsModule } from './permissions/permissions.module';
 import { BrowserModule } from '@angular/platform-browser';
@@ -27,6 +28,7 @@ import { AppComponent } from './app.component';
     RouterModule.forRoot(rootRoutes),
     Ng2UiAuthModule.forRoot(MyAuthConfig),
     SimpleNotificationsModule.forRoot(),
+    TooltipModule.forRoot(),
     HomeModule,
     StreamsModule,
     SkillsModule,
