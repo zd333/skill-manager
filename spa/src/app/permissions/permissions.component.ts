@@ -1,14 +1,14 @@
 import { NotificationsService } from 'angular2-notifications';
-import { UsersService } from '../../users/shared/users.service';
-import { User } from '../../users/shared/user.model';
+import { UsersService } from '../users/shared/users.service';
+import { User } from '../users/shared/user.model';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'skdsm-manage-permissions',
-  templateUrl: './manage-permissions.component.html',
-  styleUrls: ['./manage-permissions.component.styl']
+  selector: 'skdsm-permissions',
+  templateUrl: './permissions.component.html',
+  styleUrls: ['./permissions.component.styl']
 })
-export class ManagePermissionsComponent implements OnInit {
+export class PermissionsComponent implements OnInit {
   users: Array<User> = [];
   selectedUser: User;
   checkboxesModel: Object = {};
