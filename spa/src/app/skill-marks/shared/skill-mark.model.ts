@@ -5,6 +5,7 @@ interface Approvement {
   approverName: string;
   approverId: string;
 }
+
 /**
  * This represents structure of back-end response
  */

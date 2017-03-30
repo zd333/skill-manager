@@ -1,9 +1,8 @@
-import * as moment from 'moment';
 import { FormBuilder, Validators } from '@angular/forms';
 import { SkillsService } from '../skills/shared/skills.service';
 import { Skill } from '../skills/shared/skill.model';
 import { NotificationsService } from 'angular2-notifications';
-import { BaseSkillMark, SkillMark, SkillMarksGroupedBySkill } from '../users/shared/skill-mark.model';
+import { BaseSkillMark, SkillMark, SkillMarksGroupedBySkill } from '../skill-marks/shared/skill-mark.model';
 import { UsersService } from '../users/shared/users.service';
 import { Component, OnInit } from '@angular/core';
 
@@ -37,7 +36,6 @@ export class ProfileComponent implements OnInit {
     this.usersService.getMyProfileData()
       .subscribe(me => {
         this.myGroupedSkillMarks = this.usersService.groupSkillMarksBySkill(me.skillMarks);
-        this.groupExpanded = this.myGroupedSkillMarks.map(() => false);
       }, error => {
         const errorObj = error.json();
         this.notify.error('Ошибка', errorObj.errmsg || errorObj.message || 'Не удалось загрузить данные профиля');
@@ -81,7 +79,6 @@ export class ProfileComponent implements OnInit {
             skillName: selectedSkill.name,
             skillMarks: [new BaseSkillMark(newMark._id, newMark.value, newMark.postedAt)]
           };
-          this.groupExpanded.push(false);
           this.myGroupedSkillMarks.push(selectedGroup);
         }
         this.addMarkForm.reset();

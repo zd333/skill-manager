@@ -1,0 +1,51 @@
+<div>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Умение</th>
+        <th>Направление</th>
+        <th>Уровень</th>
+        <th>Дата</th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngFor="let group of groupedMarks; let i = index;">
+
+        <tr>
+          <td>
+            <a (click)="groupExpanded[i] = !groupExpanded[i]"
+              *ngIf="group.skillMarks.length > 1">
+              <span [ngClass]="{'glyphicon-menu-right': !groupExpanded[i], 'glyphicon-menu-down': groupExpanded[i]}"
+                class="glyphicon expand-collapse"></span>
+            </a>
+            <span class="glyphicon glyphicon-menu-right"
+              style="visibility: hidden"
+              *ngIf="group.skillMarks.length === 1"></span> {{group.skillName}}
+          </td>
+          <td>{{group.streamName}}</td>
+          <td>
+            {{group.skillMarks[0].value}}
+            <span class="glyphicon glyphicon-ok success"
+              *ngIf="group.skillMarks[0].isApproved"
+              tooltip="Оценка подтверждена {{group.skillMarks[0].approver.name}} {{group.skillMarks[0].approvedAtMoment | amDateFormat:'LL'}}"></span>
+            <td>{{group.skillMarks[0].postedAtMoment | amDateFormat:'LL'}}</td>
+        </tr>
+
+        <ng-container *ngFor="let mark of group.skillMarks; let first = first;">
+          <tr class="active history-row"
+            *ngIf="groupExpanded[i] && !first">
+            <td></td>
+            <td></td>
+            <td>
+              {{mark.value}}
+              <span class="glyphicon glyphicon-ok success"
+                *ngIf="mark.isApproved"
+                tooltip="Оценка подтверждена {{mark.approver.name}} {{mark.approvedAtMoment | amDateFormat:'LL'}}"></span>
+            </td>
+            <td>{{mark.postedAtMoment | amDateFormat:'LL'}}</td>
+          </tr>
+        </ng-container>
+      </ng-container>
+    </tbody>
+  </table>
+</div>
