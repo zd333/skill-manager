@@ -1,3 +1,4 @@
+import { SkillMarksService } from './shared/skill-marks.service';
 import { TooltipModule } from 'ng2-bootstrap';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -15,6 +16,9 @@ import { MomentModule } from 'angular2-moment';
   ],
   declarations: [
     SkillMarkListComponent
+  ],
+  providers: [
+    SkillMarksService
   ]
 })
 export class SkillMarksModule { }

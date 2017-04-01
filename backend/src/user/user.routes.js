@@ -107,10 +107,12 @@ module.exports = app => {
   app.options('/api/v0/users', isAuthenticatedAndHasPermissions(['admin']), (request, response) => {
     let find;
     if (Object.hasOwnProperty.call(request.query, 'q')) {
-      find = User.find({ $or: [
-        { name: { $regex: `.*${request.query.q}.*`, $options: '$i' } },
-        { email: { $regex: `.*${request.query.q}.*`, $options: '$i' } }
-      ] }, { skillMarks: 0 });
+      find = User.find({
+        $or: [
+          { name: { $regex: `.*${request.query.q}.*`, $options: '$i' } },
+          { email: { $regex: `.*${request.query.q}.*`, $options: '$i' } }
+        ]
+      }, { skillMarks: 0 });
     } else {
       find = User.find({}, { skillMarks: 0 });
     }
@@ -241,16 +243,17 @@ module.exports = app => {
    * Approve user skill mark
    */
   app.post('/api/v0/user_skill_marks/:id/approve', isAuthenticatedAndHasPermissions(['skillApprover']), (request, response) => {
+    const approvementItem = {
+      approverId: request.session.user._id,
+      approverName: request.session.user.name,
+      postedAt: Date.now()
+    };
     return User.findOneAndUpdate({ 'skillMarks._id': request.params.id }, {
       $set: {
-        'skillMarks.$.approvement': {
-          approverId: request.session.user._id,
-          approverName: request.session.user.name,
-          postedAt: Date.now()
-        }
+        'skillMarks.$.approvement': approvementItem
       }
     })
-      .then(() => response.status(201).send())
+      .then(() => response.status(201).json(approvementItem))
       .catch(error => errorHandler(response, error, 400));
   });
 };

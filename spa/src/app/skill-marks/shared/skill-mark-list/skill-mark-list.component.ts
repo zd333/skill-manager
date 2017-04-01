@@ -1,6 +1,8 @@
+import { NotificationsService } from 'angular2-notifications';
+import { SkillMarksService } from '../skill-marks.service';
 import { AuthService } from '../../../core/auth.service';
 import { Subscription } from 'rxjs/Rx';
-import { SkillMarksGroupedBySkill } from '../skill-mark.model';
+import { BaseSkillMark, SkillMarksGroupedBySkill } from '../skill-mark.model';
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 
 @Component({
@@ -17,7 +19,8 @@ export class SkillMarkListComponent implements OnInit, OnChanges {
   private permissionSub: Subscription;
   haveApprovePermission = false;
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService, private skillMarksService: SkillMarksService,
+    private notify: NotificationsService) { }
 
   ngOnInit() {
     this.permissionSub = this.authService.sessionUserHasPermission('skillApprover')
@@ -27,9 +30,20 @@ export class SkillMarkListComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges() {
-    // Not good to mutate original (data in general), but ok here
+    // Not good to mutate original data (in general), but ok here
     this.groupedMarks.forEach(group => group.$$expanded = false);
     this.sort(this.currentSort.column, this.currentSort.order);
+  }
+
+  approve(groupIndex, markIndex) {
+    const mark = this.groupedMarks[groupIndex].skillMarks[markIndex];
+    this.skillMarksService.approveSkillMark(mark._id)
+      .subscribe(approvement => {
+        this.groupedMarks[groupIndex].skillMarks[markIndex] = new BaseSkillMark(mark._id, mark.value, mark.postedAtMoment.toISOString(), approvement);
+      }, error => {
+        const errorObj = error.json();
+        this.notify.error('Ошибка', errorObj.errmsg || errorObj.message || 'Не удалось подтвердить');
+      })
   }
 
   setSort(pressedColumn: string) {

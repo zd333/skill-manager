@@ -1,6 +1,6 @@
 import * as moment from 'moment';
 
-interface Approvement {
+export interface Approvement {
   postedAt: string;
   approverName: string;
   approverId: string;

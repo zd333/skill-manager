@@ -45,8 +45,8 @@
       </tr>
     </thead>
     <tbody>
-      <ng-container *ngFor="let group of groupedMarks; let i = index;">
-        <ng-container *ngFor="let mark of group.skillMarks; let first = first;">
+      <ng-container *ngFor="let group of groupedMarks; let groupIndex = index;">
+        <ng-container *ngFor="let mark of group.skillMarks; let first = first; let markIndex = index;">
           <tr [ngClass]="{'history-row': !first, active: !first}"
             *ngIf="group.expanded || first">
 
@@ -71,7 +71,9 @@
             <td>{{mark.postedAtMoment | amDateFormat:'LL'}}</td>
 
             <td *ngIf="haveApprovePermission">
-              <button type="submit"
+              <button type="button"
+                *ngIf="!mark.isApproved"
+                (click)="approve(groupIndex, markIndex)"
                 class="btn btn-default table-button pull-right">Подтвердить</button>
             </td>
 

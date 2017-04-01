@@ -1,4 +1,4 @@
-import { Stream } from '../streams/stream.model';
+import { Stream } from '../../streams/shared/stream.model';
 import { Skill, SkillsGroupedByStream } from './skill.model';
 import { Observable } from 'rxjs/Rx';
 import { Http } from '@angular/http';

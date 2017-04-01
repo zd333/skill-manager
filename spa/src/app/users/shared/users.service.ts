@@ -57,7 +57,7 @@ export class UsersService {
 
   getMyProfileData(): Observable<User> {
     return this.authService.sessionUser
-      .flatMap(user => this.getUserDetails(user._id));
+      .flatMap(user => user ? this.getUserDetails(user._id) : Observable.empty());
   }
 
   addSkillMark(newMark: { skillId: string, value: number }): Observable<RawSkillMark> {
