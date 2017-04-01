@@ -9,12 +9,13 @@
       *ngIf="isLoggedIn === true">
       <li [routerLinkActive]="['active']">
         <a *ngIf="haveAdminPermission"
-          routerLink="permissions">Права</a>
+          routerLink="/permissions">Права</a>
         <a *ngIf="!haveAdminPermission"
           class="disabled-header-link">Права</a>
       </li>
-      <li [routerLinkActive]="['active']"><a routerLink="streams">Направления</a></li>
-      <li [routerLinkActive]="['active']"><a routerLink="skills">Умения</a></li>
+      <li [routerLinkActive]="['active']"><a routerLink="/streams">Направления</a></li>
+      <li [routerLinkActive]="['active']"><a routerLink="/skills">Умения</a></li>
+      <li [routerLinkActive]="['active']"><a routerLink="/users">Пользователи</a></li>
     </ul>
     <ul class="nav navbar-nav navbar-right">
       <li *ngIf="isLoggedIn === false">
@@ -23,7 +24,7 @@
       </li>
       <li [routerLinkActive]="['active']"
         *ngIf="isLoggedIn === true">
-        <a routerLink="profile"><span class="glyphicon glyphicon-user"></span> Мой профиль ({{userName}})</a>
+        <a routerLink="/profile"><span class="glyphicon glyphicon-user"></span> Мой профиль ({{userName}})</a>
       </li>
       <li *ngIf="isLoggedIn === true">
         <a href="#"
