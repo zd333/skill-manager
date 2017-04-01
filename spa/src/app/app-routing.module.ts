@@ -1,5 +1,5 @@
-import { AdminGuardService } from './core/admin-guard.service';
-import { LoggedinGuardService } from './core/loggedin-guard.service';
+import { AdminGuard } from './core/admin.guard';
+import { LoggedinGuard } from './core/loggedin.guard';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './home/home.component';
@@ -14,22 +14,22 @@ export const rootRoutes: Routes = [
   {
     path: 'streams',
     component: ManageStreamsComponent,
-    canActivate: [LoggedinGuardService]
+    canActivate: [LoggedinGuard]
   },
   {
     path: 'skills',
     component: ManageSkillsComponent,
-    canActivate: [LoggedinGuardService]
+    canActivate: [LoggedinGuard]
   },
   {
     path: 'profile',
     component: ProfileComponent,
-    canActivate: [LoggedinGuardService]
+    canActivate: [LoggedinGuard]
   },
   {
     path: 'permissions',
     component: PermissionsComponent,
-    canActivate: [AdminGuardService]
+    canActivate: [AdminGuard]
   },
   { path: '**', redirectTo: 'home' }
 ];

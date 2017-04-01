@@ -22,6 +22,7 @@ export class HeaderComponent implements OnInit {
         this.userName = user ? user.name : '';
       });
 
+    // This is static core component, so no need to unsubscribe on destroy
     this.permissionSub = this.authService.sessionUserHasPermission('admin')
       .subscribe(hasPermission => {
         this.haveAdminPermission = hasPermission;

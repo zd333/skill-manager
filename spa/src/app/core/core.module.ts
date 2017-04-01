@@ -1,5 +1,5 @@
-import { AdminGuardService } from './admin-guard.service';
-import { LoggedinGuardService } from './loggedin-guard.service';
+import { AdminGuard } from './admin.guard';
+import { LoggedinGuard } from './loggedin.guard';
 import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -26,7 +26,7 @@ export class MyAuthConfig extends CustomConfig {
     RouterModule,
     CommonModule
   ],
-  providers: [AuthService, LoggedinGuardService, AdminGuardService],
+  providers: [AuthService, LoggedinGuard, AdminGuard],
   exports: [
     HeaderComponent
   ],

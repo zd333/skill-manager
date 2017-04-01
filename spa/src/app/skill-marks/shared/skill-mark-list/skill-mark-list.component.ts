@@ -3,14 +3,14 @@ import { SkillMarksService } from '../skill-marks.service';
 import { AuthService } from '../../../core/auth.service';
 import { Subscription } from 'rxjs/Rx';
 import { BaseSkillMark, SkillMarksGroupedBySkill } from '../skill-mark.model';
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnDestroy, OnInit } from '@angular/core';
 
 @Component({
   selector: 'skdsm-skill-mark-list',
   templateUrl: './skill-mark-list.component.html',
   styleUrls: ['./skill-mark-list.component.styl']
 })
-export class SkillMarkListComponent implements OnInit, OnChanges {
+export class SkillMarkListComponent implements OnInit, OnChanges, OnDestroy {
   @Input() groupedMarks: SkillMarksGroupedBySkill;
   currentSort = {
     column: 'value', // Default value will be set during init
@@ -98,5 +98,9 @@ export class SkillMarkListComponent implements OnInit, OnChanges {
         }
         break;
     }
+  }
+
+  ngOnDestroy() {
+    this.permissionSub.unsubscribe();
   }
 }
