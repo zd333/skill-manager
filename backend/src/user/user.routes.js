@@ -103,20 +103,27 @@ module.exports = app => {
    * User list for admin to use in permission management
    * Query params:
    * `q` (optional) - string to search in name, email
+   * `include_inactive` (no value, optional) - if select or not inactive users
    */
   app.options('/api/v0/users', isAuthenticatedAndHasPermissions(['admin']), (request, response) => {
-    let find;
+    const orMatcher = [];
+    const andMatcher = [];
     if (Object.hasOwnProperty.call(request.query, 'q')) {
-      find = User.find({
-        $or: [
-          { name: { $regex: `.*${request.query.q}.*`, $options: '$i' } },
-          { email: { $regex: `.*${request.query.q}.*`, $options: '$i' } }
-        ]
-      }, { skillMarks: 0 });
+      orMatcher.push(
+        { name: { $regex: `.*${request.query.q}.*`, $options: '$i' } },
+        { email: { $regex: `.*${request.query.q}.*`, $options: '$i' } });
     } else {
-      find = User.find({}, { skillMarks: 0 });
+      orMatcher.push({});
     }
-    return find
+    if (Object.hasOwnProperty.call(request.query, 'include_inactive')) {
+      andMatcher.push({});
+    } else {
+      andMatcher.push({ isActive: true });
+    }
+    return User.find({
+      $or: orMatcher,
+      $and: andMatcher
+    }, { skillMarks: 0 })
       .then(foundUsers => {
         return response.status(200).json(foundUsers);
       })
