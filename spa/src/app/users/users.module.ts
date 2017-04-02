@@ -1,3 +1,4 @@
+import { SkillMarksModule } from '../skill-marks/skill-marks.module';
 import { UsersRoutingModule, usersRoutes } from './users-routing.module';
 import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
@@ -12,7 +13,8 @@ import { UsersTableComponent } from './shared/users-table/users-table.component'
   imports: [
     CommonModule,
     UsersRoutingModule,
-    RouterModule.forChild(usersRoutes)
+    RouterModule.forChild(usersRoutes),
+    SkillMarksModule
   ],
   exports: [
     UsersTableComponent
