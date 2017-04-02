@@ -102,7 +102,7 @@ module.exports = app => {
   /**
    * User list for admin to use in permission management
    * Query params:
-   * `q` (optional) - string to search in naame, email
+   * `q` (optional) - string to search in name, email
    */
   app.options('/api/v0/users', isAuthenticatedAndHasPermissions(['admin']), (request, response) => {
     let find;

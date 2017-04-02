@@ -6,7 +6,9 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let user of users">
+    <tr class="clickable"
+      *ngFor="let user of users"
+      [routerLink]="['/users', user._id]">
       <td>{{user.name}}</td>
       <td>{{user.email}}</td>
     </tr>
