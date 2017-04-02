@@ -39,11 +39,15 @@ export class SkillMarkListComponent implements OnInit, OnChanges, OnDestroy {
     const mark = this.groupedMarks[groupIndex].skillMarks[markIndex];
     this.skillMarksService.approveSkillMark(mark._id)
       .subscribe(approvement => {
-        this.groupedMarks[groupIndex].skillMarks[markIndex] = new BaseSkillMark(mark._id, mark.value, mark.postedAtMoment.toISOString(), approvement);
+        this.groupedMarks[groupIndex].skillMarks[markIndex] = new BaseSkillMark(
+          mark._id,
+          mark.value,
+          mark.postedAtMoment.toISOString(),
+          approvement);
       }, error => {
         const errorObj = error.json();
         this.notify.error('Ошибка', errorObj.errmsg || errorObj.message || 'Не удалось подтвердить');
-      })
+      });
   }
 
   setSort(pressedColumn: string) {
