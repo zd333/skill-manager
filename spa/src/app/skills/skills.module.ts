@@ -1,3 +1,4 @@
+import { UsersModule } from '../users/users.module';
 import { SharedModule } from '../shared/shared.module';
 import { Ng2AutoCompleteModule } from 'ng2-auto-complete';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -13,7 +14,8 @@ import { AccordionModule } from 'ng2-bootstrap';
     ReactiveFormsModule,
     FormsModule,
     Ng2AutoCompleteModule,
-    SharedModule
+    SharedModule,
+    UsersModule
   ],
   declarations: [ManageSkillsComponent],
   providers: [SkillsService]

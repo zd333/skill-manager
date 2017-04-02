@@ -5,6 +5,8 @@ import { CommonModule } from '@angular/common';
 import { UsersService } from './shared/users.service';
 import { UsersComponent } from './users.component';
 import { UserListComponent } from './user-list/user-list.component';
+import { UserDetailsComponent } from './user-details/user-details.component';
+import { UsersTableComponent } from './shared/users-table/users-table.component';
 
 @NgModule({
   imports: [
@@ -12,9 +14,12 @@ import { UserListComponent } from './user-list/user-list.component';
     UsersRoutingModule,
     RouterModule.forChild(usersRoutes)
   ],
+  exports: [
+    UsersTableComponent
+  ],
   providers: [
     UsersService
   ],
-  declarations: [UsersComponent, UserListComponent]
+  declarations: [UsersComponent, UserListComponent, UserDetailsComponent, UsersTableComponent]
 })
 export class UsersModule { }

@@ -67,22 +67,8 @@
     ></skdsm-chip>
   </div>
 </div>
-<div>
-  <table class="table">
-    <thead>
-      <tr>
-        <th>Сотрудник</th>
-        <th>Email</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let user of foundUsers">
-        <td>{{user.name}}</td>
-        <td>{{user.email}}</td>
-      </tr>
-    </tbody>
-  </table>
-</div>
+
+<skdsm-users-table [users]="foundUsers"></skdsm-users-table>
 
 <br>
 
