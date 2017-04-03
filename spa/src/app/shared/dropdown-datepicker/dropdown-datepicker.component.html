@@ -1,0 +1,23 @@
+<div dropdown>
+
+  <div class="input-group"
+    dropdownToggle>
+    <input type="text"
+      readonly
+      class="form-control"
+      [placeholder]="placeholder"
+      [value]="currentDateStr">
+    <div class="input-group-btn">
+      <button class="btn btn-default"
+        type="button">
+      <i class="glyphicon glyphicon-calendar"></i>
+      </button>
+    </div>
+  </div>
+
+  <datepicker *dropdownMenu
+    [showWeeks]="false"
+    [minDate]="minDate"
+    (selectionDone)="selectionDone($event)"></datepicker>
+
+</div>
