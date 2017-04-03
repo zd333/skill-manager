@@ -13,7 +13,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 export class UserDetailsComponent implements OnInit, OnDestroy {
   private subscriptionParams: Subscription;
   private userId: string;
-  private user: User;
+  user: User;
   groupedSkillMarks: SkillMarksGroupedBySkill = [];
 
   constructor(private route: ActivatedRoute, private usersService: UsersService) { }
@@ -21,16 +21,16 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.subscriptionParams = this.route.params.subscribe(params => {
       this.userId = params['id'];
-      this.usersService.getUserDetails(this.userId)
-        .subscribe(userDetails => {
-          this.groupedSkillMarks = this.usersService.groupSkillMarksBySkill(userDetails.skillMarks);
-          this.user = userDetails;
-        });
+      this.loadUserDetails();
     });
   }
 
   loadUserDetails() {
-    this.usersService.getUserDetails
+    this.usersService.getUserDetails(this.userId)
+      .subscribe(userDetails => {
+        this.groupedSkillMarks = this.usersService.groupSkillMarksBySkill(userDetails.skillMarks);
+        this.user = userDetails;
+      });
   }
 
   ngOnDestroy() {

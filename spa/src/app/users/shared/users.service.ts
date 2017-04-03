@@ -26,7 +26,7 @@ export class UsersService {
       search: new URLSearchParams(paramGroups.join('&'))
     });
     return this.http
-      .get('/api/v0/users', options)
+      .get('/api/v0/users_with_marks', options)
       .map(responseUsers => responseUsers.json() as Array<User>);
   }
 
@@ -43,7 +43,7 @@ export class UsersService {
       search: new URLSearchParams(paramGroups.join('&'))
     });
     return this.http
-      .options('/api/v0/users', options)
+      .get('/api/v0/users', options)
       .map(responseUsers => responseUsers.json() as Array<User>);
   }
 

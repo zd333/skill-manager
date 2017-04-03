@@ -11,14 +11,14 @@ const Stream = require('../streams/stream.model');
 
 module.exports = app => {
   /**
-   * List of users with latest marks
+   * List of users with latest skill marks
+   * NOTE! Users without skill marks are not added to the list
    * Query params:
    * `include_inactive` (no value, optional) - if select or not inactive users
    * `streams` (string, optional) - separated by comma stream ids to filter by
    * `skills` (string, optional) - separated by comma skill ids to filter by
    */
-  // ATTENTION: with this implementation users without skill marks will not be included to response
-  app.get('/api/v0/users', isAuthenticatedAndHasPermissions([]), (request, response) => {
+  app.get('/api/v0/users_with_marks', isAuthenticatedAndHasPermissions([]), (request, response) => {
     // Prepare filters
     const matchFilter = { $and: [] };
     // `isActive` filter
@@ -100,12 +100,12 @@ module.exports = app => {
   });
 
   /**
-   * User list for admin to use in permission management
+   * User list
    * Query params:
    * `q` (optional) - string to search in name, email
    * `include_inactive` (no value, optional) - if select or not inactive users
    */
-  app.options('/api/v0/users', isAuthenticatedAndHasPermissions(['admin']), (request, response) => {
+  app.get('/api/v0/users', isAuthenticatedAndHasPermissions(['admin']), (request, response) => {
     const orMatcher = [];
     const andMatcher = [];
     if (Object.hasOwnProperty.call(request.query, 'q')) {
