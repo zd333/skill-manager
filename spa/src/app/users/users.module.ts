@@ -1,3 +1,4 @@
+import { PdpsModule } from '../pdps/pdps.module';
 import { SkillMarksModule } from '../skill-marks/skill-marks.module';
 import { UsersRoutingModule, usersRoutes } from './users-routing.module';
 import { RouterModule } from '@angular/router';
@@ -14,7 +15,8 @@ import { UsersTableComponent } from './shared/users-table/users-table.component'
     CommonModule,
     UsersRoutingModule,
     RouterModule.forChild(usersRoutes),
-    SkillMarksModule
+    SkillMarksModule,
+    PdpsModule
   ],
   exports: [
     UsersTableComponent
@@ -22,6 +24,11 @@ import { UsersTableComponent } from './shared/users-table/users-table.component'
   providers: [
     UsersService
   ],
-  declarations: [UsersComponent, UserListComponent, UserDetailsComponent, UsersTableComponent]
+  declarations: [
+    UsersComponent,
+    UserListComponent,
+    UserDetailsComponent,
+    UsersTableComponent
+  ]
 })
 export class UsersModule { }
