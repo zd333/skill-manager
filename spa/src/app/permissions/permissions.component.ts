@@ -22,7 +22,7 @@ export class PermissionsComponent implements OnInit {
   }
 
   loadUsers() {
-    this.userService.getUsersList()
+    this.userService.getUsersList('', true)
       .subscribe(users => {
         this.users = users;
         // There are always must be more then 0 users

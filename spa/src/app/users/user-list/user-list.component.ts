@@ -10,7 +10,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UserListComponent implements OnInit {
   users: Array<User> = [];
-  isActiveModel: boolean;
+  includeInactiveUsers = false;
 
   constructor(private userService: UsersService, private notify: NotificationsService) { }
 
@@ -19,12 +19,17 @@ export class UserListComponent implements OnInit {
   }
 
   loadUsers() {
-    this.userService.getUsersList()
+    this.userService.getUsersList('', this.includeInactiveUsers)
       .subscribe(users => {
         this.users = users;
       }, error => {
         const errorObj = error.json();
         this.notify.error('Ошибка', errorObj.errmsg || errorObj.message || 'Не удалось загрузить пользователей');
       });
+  }
+
+  inactiveFilterChanged(event) {
+    this.includeInactiveUsers = event.target.checked;
+    this.loadUsers();
   }
 }

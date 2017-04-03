@@ -30,17 +30,20 @@ export class UsersService {
       .map(responseUsers => responseUsers.json() as Array<User>);
   }
 
-  getUsersList(searchQuery?: string): Observable<Array<User>> {
-    let request;
-    if (searchQuery) {
-      const options = new RequestOptions({
-        search: new URLSearchParams(`q=${searchQuery}`)
-      });
-      request = this.http.options('/api/v0/users', options);
-    } else {
-      request = this.http.options('/api/v0/users');
+  getUsersList(searchQuery?: string, includeInactive?: boolean): Observable<Array<User>> {
+    const paramGroups = [];
+    if (searchQuery && searchQuery.length) {
+      paramGroups.push(`q=${searchQuery}`);
     }
-    return request
+    if (includeInactive) {
+      paramGroups.push('include_inactive');
+    }
+
+    const options = new RequestOptions({
+      search: new URLSearchParams(paramGroups.join('&'))
+    });
+    return this.http
+      .options('/api/v0/users', options)
       .map(responseUsers => responseUsers.json() as Array<User>);
   }
 
