@@ -34,7 +34,8 @@
 
 <div class="row">
   <div class="col-xs-12 col-md-8">
-    <skdsm-chip [text]="goal.skillName + ' (' + goal.value + ')'"
+    <skdsm-chip [text]="goal.skillName"
+      [badgeValue]="goal.value"
       [payload]="goal"
       (close)="filterSkillClosed($event)"
       *ngFor="let goal of goals"></skdsm-chip>
