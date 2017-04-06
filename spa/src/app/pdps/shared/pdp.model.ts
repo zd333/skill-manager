@@ -1,28 +1,25 @@
 import * as moment from 'moment';
 
-interface PdpGoal {
+/**
+ * This represents pdp goal which used to send pdp to back-end
+ */
+interface BasePdpGoal {
+  skillId: string;
+  value: number;
+}
+
+interface PdpGoal extends BasePdpGoal {
   _id: string;
   isAchieved: boolean;
-  value: number;
   streamId: string;
   streamName: string;
-  skillId: string;
   skillName: string;
 }
 
-/**
- * This represents Pdp received from back-end
- */
-export interface RawPdp {
-  _id: string;
-  userId: string;
-  userName: string;
-  creatorId: string;
-  creatorName: string;
+export interface BasePdp {
   plannedFinishAt: string;
-  isAchieved: boolean;
-  postedAt: string;
-  goals: Array<PdpGoal>;
+  userId: string;
+  goals: Array<BasePdpGoal>;
 }
 
 export class Pdp {
@@ -36,7 +33,7 @@ export class Pdp {
   private postedAt: string;
   private plannedFinishAt: string;
 
-  constructor(rawPdp: RawPdp) {
+  constructor(rawPdp) {
     this._id = rawPdp._id;
     this.userId = rawPdp.userId;
     this.userName = rawPdp.userName;
@@ -45,9 +42,14 @@ export class Pdp {
     this.isAchieved = rawPdp.isAchieved;
     this.goals = rawPdp.goals;
     this.postedAt = rawPdp.postedAt;
+    this.plannedFinishAt = rawPdp.plannedFinishAt;
   }
 
   get postedAtMoment(): moment.Moment {
     return moment(this.postedAt);
+  }
+
+  get plannedFinishAtMoment(): moment.Moment {
+    return moment(this.plannedFinishAt);
   }
 }

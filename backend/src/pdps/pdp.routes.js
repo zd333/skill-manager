@@ -92,7 +92,7 @@ module.exports = app => {
         }));
       })
       .then(() => Pdp.create(pdpToSave))
-      .then(() => response.status(201).send())
+      .then(createdPdp => response.status(201).json(createdPdp))
       .catch(error => errorHandler(response, error, 400));
   });
 };

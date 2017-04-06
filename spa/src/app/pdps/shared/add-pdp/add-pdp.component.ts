@@ -1,3 +1,5 @@
+import { PdpsService } from '../pdps.service';
+import { BasePdp } from '../pdp.model';
 import { Skill } from '../../../skills/shared/skill.model';
 import { NotificationsService } from 'angular2-notifications';
 import { SkillsService } from '../../../skills/shared/skills.service';
@@ -13,19 +15,20 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class AddPdpComponent implements OnInit {
   @Input() userId: string;
-  finishDate: any; // Moment object
+  finishDate: any;
   havePdpPermission = false;
   private permissionSub: Subscription;
   skills: Array<Skill> = [];
   selectedSkill: Skill;
   selectedGoalValue: string;
   selectedSkillName: '';
-  goals: Array<{ skillId: string, skillName: string, value: number }> = [];
+  goals: Array<{ skill: Skill, value: string }> = [];
 
   constructor(
     private authService: AuthService,
     private skillsService: SkillsService,
-    private notify: NotificationsService) { }
+    private notify: NotificationsService,
+    private pdpsService: PdpsService) { }
 
   ngOnInit() {
     this.loadSkills();
@@ -45,14 +48,42 @@ export class AddPdpComponent implements OnInit {
         this.notify.error('Ошибка', errorObj.errmsg || errorObj.message || 'Не удалось загрузить список умений');
       });
   }
+
   addGoal() {
     this.goals.push({
-      skillId: this.selectedSkill._id,
-      skillName: this.selectedSkill.name,
-      value: Number(this.selectedGoalValue)
+      skill: this.selectedSkill,
+      value: this.selectedGoalValue
     });
+    this.skills = this.skills.filter(skill => skill !== this.selectedSkill)
     this.selectedGoalValue = '';
     this.selectedSkillName = '';
+  }
+
+  filterSkillClosed(deletedGoal) {
+    this.goals = this.goals.filter(goal => goal !== deletedGoal);
+    this.skills.push(deletedGoal.skill);
+  }
+
+  addPdp() {
+    const pdpToSave: BasePdp = {
+      plannedFinishAt: moment(this.finishDate).toISOString(),
+      userId: this.userId,
+      goals: this.goals.map(goal => ({
+        skillId: goal.skill._id,
+        value: Number(goal.value)
+      }))
+    };
+    this.pdpsService.addPdp(pdpToSave)
+      .subscribe(createdPdp => {
+        // TODO: add new pdp to list
+        console.log(createdPdp);
+        // Restore Skills list
+        this.skills.push(...this.goals.map(goal => goal.skill));
+        this.goals = [];
+      }, error => {
+        const errorObj = error.json();
+        this.notify.error('Ошибка', errorObj.errmsg || errorObj.message || 'Не удалось добавить план');
+      });
   }
 
   ngOnDestroy() {

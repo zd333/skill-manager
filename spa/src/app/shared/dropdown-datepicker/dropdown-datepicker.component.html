@@ -1,7 +1,7 @@
 <div dropdown>
 
-  <div class="input-group"
-    dropdownToggle>
+  <!--TODO: this is bad implementation. Need normal dropdown-->
+  <div class="input-group">
     <input type="text"
       readonly
       class="form-control"
@@ -9,6 +9,7 @@
       [value]="currentDateStr">
     <div class="input-group-btn">
       <button class="btn btn-default"
+        dropdownToggle
         type="button">
       <i class="glyphicon glyphicon-calendar"></i>
       </button>

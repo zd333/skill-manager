@@ -1,3 +1,4 @@
+import { PdpsService } from './shared/pdps.service';
 import { FormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
 import { NgModule } from '@angular/core';
@@ -14,6 +15,9 @@ import { Ng2AutoCompleteModule } from 'ng2-auto-complete';
   ],
   declarations: [
     AddPdpComponent
+  ],
+  providers: [
+    PdpsService
   ],
   exports: [
     AddPdpComponent
