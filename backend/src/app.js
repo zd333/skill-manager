@@ -1,33 +1,33 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const mongodb = require('mongodb');
+'use strict';
 
+const express = require('express');
+const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
+const session = require('express-session');
+const MongoSessionStore = require('connect-mongo')(session);
+
+const config = require('./config/app.config');
+const activateRoutes = require('./common/routes-collector');
+
+mongoose.Promise = Promise;
 const app = express();
 app.use(bodyParser.json());
 
-const ObjectID = mongodb.ObjectID;
-const db;
-const usersCollection = "users";
-
-// TODO: move db connection URI to conf
-mongodb.MongoClient.connect('mongodb://mongo:27017', (err, database) => {
-  if (err) {
-    console.log(err);
-    process.exit(1);
+mongoose.connect(config.db.uri, error => {
+  if (error) {
+    console.log('ERROR connecting to: ' + config.db.uri + '. ' + error);
+    return;
   }
 
-  // Save database object from the callback for reuse.
-  db = database;
-  console.log("Database connection ready");
+  app.use(session({
+    secret: 'supersecret',
+    resave: false,
+    saveUninitialized: false,
+    store: new MongoSessionStore({ mongooseConnection: mongoose.connection })
+  }));
 
-  // Initialize the app.
-  // TODO: move server port to conf
-  const server = app.listen(3042, () => {
+  const server = app.listen(config.server.port, () => {
     console.log(`SKD SM server now running on port ${server.address().port}`);
+    activateRoutes(app);
   });
 });
-
-app.get('/', function (req, res) {
-  res.send("SKD SM will be here soon");
-});
-

@@ -1,0 +1,6 @@
+<div class="chip">
+  <span class="badge"
+    *ngIf="badgeValue">{{badgeValue}}</span>
+  {{text}}
+  <span class="glyphicon glyphicon-remove" (click)="close.emit(payload)"></span>
+</div>

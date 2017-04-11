@@ -1,4 +1,4 @@
-FROM node:argon
+FROM node:7.7.2
 RUN mkdir /backend-dist
 COPY . /backend-dist
 WORKDIR /backend-dist

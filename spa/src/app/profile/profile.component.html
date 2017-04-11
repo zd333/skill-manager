@@ -1,0 +1,33 @@
+<h4>Добавить оценку</h4>
+
+<div class="row">
+  <form novalidate
+    [formGroup]="addMarkForm"
+    (ngSubmit)="addMark()">
+    <fieldset class="form-group">
+      <div class="col-xs-8">
+        <select class="form-control"
+          formControlName="newMarkSkillId">
+          <option
+            *ngFor="let skill of skills"
+            [value]="skill._id">{{skill.name + ' / ' + skill.streamName}}</option>
+        </select>
+      </div>
+      <div class="col-xs-4">
+        <select class="form-control"
+          formControlName="newMarkValue">
+          <option
+            *ngFor="let val of [0, 1, 2, 3, 4]"
+            [value]="val">{{val}}</option>
+        </select>
+      </div>
+    </fieldset>
+    <div class="col-xs-12">
+      <button type="submit"
+        class="btn btn-default pull-right">Добавить</button>
+    </div>
+  </form>
+</div>
+
+<h4>Мои оценки</h4>
+<skdsm-skill-mark-list [groupedMarks]="myGroupedSkillMarks"></skdsm-skill-mark-list>

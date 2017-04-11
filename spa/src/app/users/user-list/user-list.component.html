@@ -1,0 +1,15 @@
+<h4>Список сотрудников компании</h4>
+
+<div class="row">
+  <div class="col-xs-12">
+    <label class="checkbox-inline search-option">
+      <input type="checkbox"
+        value=""
+        (change)="inactiveFilterChanged($event)"
+      >
+      включая уволенных
+    </label>
+  </div>
+</div>
+
+<skdsm-users-table [users]="users"></skdsm-users-table>

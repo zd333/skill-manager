@@ -1,0 +1,59 @@
+<fieldset [disabled]="!havePdpPermission">
+
+<div class="row">
+
+  <div class="col-xs-12 col-md-4">
+    <input auto-complete
+      [source]="skills"
+      list-formatter="name"
+      no-match-found-text="Нет вхождений"
+      min-chars="2"
+      (valueChanged)="selectedSkill = $event"
+      [(ngModel)]="selectedSkillName"
+      type="text"
+      class="form-control"
+      placeholder="Умение"
+      name="searchName">
+  </div>
+
+  <div class="col-xs-12 col-xs-2">
+    <select class="form-control"
+      [(ngModel)]="selectedGoalValue">
+      <option
+        *ngFor="let val of [0, 1, 2, 3, 4]"
+        [value]="val">{{val}}</option>
+    </select>
+  </div>
+
+  <button type="button"
+    class="btn btn-default col-xs-12 col-md-3"
+    (click)="addGoal()"
+    [disabled]="!selectedSkill || !selectedGoalValue">Добавить цель</button>
+
+</div>
+
+<br>
+
+<div class="row">
+  <div class="col-xs-12 col-md-8">
+    <skdsm-chip [text]="goal.skill.name"
+      [badgeValue]="goal.value"
+      [payload]="goal"
+      (close)="filterSkillClosed($event)"
+      *ngFor="let goal of goals"></skdsm-chip>
+  </div>
+</div>
+
+<br>
+
+<div class="row">
+  <skdsm-dropdown-datepicker class="col-xs-12 col-md-offset-5 col-md-4"
+    (selected)="finishDate = $event"
+    [placeholder]="'Планируемое окончание'"></skdsm-dropdown-datepicker>
+  <button type="button"
+    (click)="addPdp()"
+    class="btn btn-default col-xs-12 col-md-3"
+    [disabled]="!goals.length || !finishDate">Создать план</button>
+</div>
+
+</fieldset>

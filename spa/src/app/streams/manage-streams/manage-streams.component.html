@@ -1,0 +1,109 @@
+<div class="panel-group">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a (click)="streamListIsExpanded = !streamListIsExpanded">
+          <span
+            class="glyphicon expand-collapse"
+            [ngClass]="{'glyphicon-menu-down': streamListIsExpanded, 'glyphicon-menu-right': !streamListIsExpanded}"
+          ></span> Список направлений
+        </a>
+      </h4>
+    </div>
+    <div
+      class="panel-collapse"
+      *ngIf="streamListIsExpanded"
+    >
+      <ul class="list-group">
+        <li
+          class="list-group-item"
+          *ngFor="let stream of streams"
+        >{{stream.name}}</li>
+      </ul>
+  </div>
+</div>
+</div>
+
+<br>
+
+<h4>Найти сотрудников по направлениям</h4>
+
+<div class="row">
+  <div class="col-xs-12">
+    <label class="checkbox-inline search-option">
+      <input type="checkbox"
+        value=""
+        (change)="inactiveFilterChanged($event)"
+      >
+      включая уволенных
+    </label>
+  </div>
+</div>
+
+<br>
+
+<div class="row">
+  <div class="col-xs-12 col-md-4">
+    <input
+      auto-complete
+      [source]="streamsLeftForSearch"
+      list-formatter="name"
+      no-match-found-text="Нет вхождений"
+      min-chars="2"
+      (valueChanged)="filterStreamSelected($event)"
+      [(ngModel)]="selectedStream"
+      type="text"
+      class="form-control"
+      placeholder="Направление"
+      name="searchName"
+    >
+  </div>
+  <div class="col-xs-12 col-md-8">
+    <skdsm-chip
+      [text]="stream.name"
+      [payload]="stream"
+      (close)="filterStreamClosed($event)"
+      *ngFor="let stream of streamsSelectedForSearch"
+    ></skdsm-chip>
+  </div>
+</div>
+
+<skdsm-users-table [users]="foundUsers"></skdsm-users-table>
+
+<br>
+
+<h4>Добавить направление</h4>
+
+<div class="row">
+  <form
+    novalidate
+    #addSkillForm="ngForm"
+    (ngSubmit)="addStream(addSkillForm)"
+  >
+    <fieldset
+      class="form-group"
+      [disabled]="!haveComposePermission"
+    >
+      <div class="col-xs-12">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Название"
+          name="name"
+          required
+          #name
+          ngModel
+        >
+      </div>
+      </fieldset>
+      <div class="col-xs-12">
+        <button
+          type="submit"
+          class="btn btn-default pull-right"
+          [disabled]="!haveComposePermission"
+        >
+          Добавить
+          </button>
+      </div>
+      </form>
+</div>

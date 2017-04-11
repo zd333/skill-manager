@@ -1,0 +1,85 @@
+<div>
+  <table class="table">
+    <thead>
+      <tr>
+
+        <th>
+          <a (click)="setSort('skillName')">
+            Умение
+            <span class="glyphicon"
+              [ngClass]="{'glyphicon-triangle-top': !currentSort.order, 'glyphicon-triangle-bottom': currentSort.order}"
+              *ngIf="currentSort.column === 'skillName'"></span>
+          </a>
+        </th>
+
+        <th>
+          <a (click)="setSort('streamName')">
+            Направление
+            <span class="glyphicon"
+              [ngClass]="{'glyphicon-triangle-top': !currentSort.order, 'glyphicon-triangle-bottom': currentSort.order}"
+              *ngIf="currentSort.column === 'streamName'"></span>
+          </a>
+        </th>
+
+        <th>
+          <a (click)="setSort('value')">
+            Уровень
+            <span class="glyphicon"
+              [ngClass]="{'glyphicon-triangle-top': !currentSort.order, 'glyphicon-triangle-bottom': currentSort.order}"
+              *ngIf="currentSort.column === 'value'"></span>
+          </a>
+        </th>
+
+        <th>
+          <a (click)="setSort('postedAtMoment')">
+            Дата
+            <span class="glyphicon"
+              [ngClass]="{'glyphicon-triangle-top': !currentSort.order, 'glyphicon-triangle-bottom': currentSort.order}"
+              *ngIf="currentSort.column === 'postedAtMoment'"></span>
+          </a>
+        </th>
+
+        <th *ngIf="haveApprovePermission">
+        </th>
+
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngFor="let group of groupedMarks; let groupIndex = index;">
+        <ng-container *ngFor="let mark of group.skillMarks; let first = first; let markIndex = index;">
+          <tr [ngClass]="{'history-row': !first, active: !first}"
+            *ngIf="group.expanded || first">
+
+            <td>{{first ? group.skillName : ''}}</td>
+
+            <td>{{first ? group.streamName : ''}}</td>
+
+            <td>
+              <span class="glyphicon glyphicon-check success"
+                *ngIf="mark.isApproved"
+                tooltip="Оценка подтверждена {{mark.approver.name}} {{mark.approvedAtMoment | amDateFormat:'LL'}}"></span>
+              <span class="glyphicon glyphicon-remove success"
+                style="visibility: hidden"
+                *ngIf="!mark.isApproved"></span> {{mark.value}}
+              <a (click)="group.expanded = !group.expanded"
+                *ngIf="first && group.skillMarks.length > 1">
+                <span [ngClass]="{'glyphicon-plus-sign': !group.expanded, 'glyphicon-minus-sign': group.expanded}"
+                  class="glyphicon expand-collapse"></span>
+              </a>
+            </td>
+
+            <td>{{mark.postedAtMoment | amDateFormat:'LL'}}</td>
+
+            <td *ngIf="haveApprovePermission">
+              <button type="button"
+                *ngIf="!mark.isApproved"
+                (click)="approve(groupIndex, markIndex)"
+                class="btn btn-default table-button pull-right">Подтвердить</button>
+            </td>
+
+          </tr>
+        </ng-container>
+      </ng-container>
+    </tbody>
+  </table>
+</div>

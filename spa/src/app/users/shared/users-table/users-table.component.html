@@ -1,0 +1,16 @@
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th>Сотрудник</th>
+      <th>Email</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="clickable"
+      *ngFor="let user of users"
+      [routerLink]="['/users', user._id]">
+      <td>{{user.name}} {{!user.isActive ? '(уволен)' : ''}}</td>
+      <td>{{user.email}}</td>
+    </tr>
+  </tbody>
+</table>

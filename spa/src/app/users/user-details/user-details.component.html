@@ -1,0 +1,14 @@
+<ng-container *ngIf="user">
+  <h3>{{user.name}} ({{user.email}})</h3>
+
+  <br>
+
+  <h4>Знания</h4>
+  <skdsm-skill-mark-list [groupedMarks]="groupedSkillMarks"></skdsm-skill-mark-list>
+
+  <br>
+
+  <h4>Добавить план развития</h4>
+  <skdsm-add-pdp [userId]="userId"></skdsm-add-pdp>
+</ng-container>
+
