@@ -9,6 +9,7 @@ const pdpSchema = new Schema(
     creatorName: { type: String, required: true },
     postedAt: { type: Date, default: Date.now, required: true },
     plannedFinishAt: { type: Date, required: true },
+    comment: { type: String},
     goals: [
       {
         streamId: { type: mongoose.Schema.Types.ObjectId, ref: 'Stream', required: true },
