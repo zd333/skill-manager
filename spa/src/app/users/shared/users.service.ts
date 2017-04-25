@@ -93,4 +93,9 @@ export class UsersService {
     }
     return groupedSkillMarks;
   }
+
+  setUserPermissions(userId: string, permissions: Array<string>): Observable<any> {
+    return this.http
+      .put(`/api/v0/users/${userId}/permissions`, { permissions });
+  }
 }

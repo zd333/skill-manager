@@ -68,6 +68,13 @@ export class PermissionsComponent implements OnInit {
           newPermissions.push(permissionName);
         }
       });
-    // TODO: update user permissions on back-end and save locally if success
+    this.saveInProgress = true;
+    this.userService.setUserPermissions(this.selectedUser._id, newPermissions)
+      .subscribe( () => {}, error => {
+        const errorObj = error.json();
+        this.notify.error('Ошибка', errorObj.errmsg || errorObj.message || 'Не удалось изменить права');
+      }, () => {
+        this.saveInProgress = false;
+      });
   }
 }
