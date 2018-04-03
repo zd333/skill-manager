@@ -19,6 +19,7 @@ interface PdpGoal extends BasePdpGoal {
 export interface BasePdp {
   plannedFinishAt: string;
   userId: string;
+  comment: string;
   goals: Array<BasePdpGoal>;
 }
 

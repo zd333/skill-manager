@@ -23,6 +23,7 @@ export class AddPdpComponent implements OnInit {
   selectedGoalValue: string;
   selectedSkillName: '';
   goals: Array<{ skill: Skill, value: string }> = [];
+  comment = '';
 
   constructor(
     private authService: AuthService,
@@ -68,6 +69,7 @@ export class AddPdpComponent implements OnInit {
     const pdpToSave: BasePdp = {
       plannedFinishAt: moment(this.finishDate).toISOString(),
       userId: this.userId,
+      comment: this.comment,
       goals: this.goals.map(goal => ({
         skillId: goal.skill._id,
         value: Number(goal.value)
@@ -75,7 +77,7 @@ export class AddPdpComponent implements OnInit {
     };
     this.pdpsService.addPdp(pdpToSave)
       .subscribe(createdPdp => {
-        // TODO: add new pdp to list
+        // TODO: add new pdp to list (add output to notify parent component)
         console.log(createdPdp);
         // Restore Skills list
         this.skills.push(...this.goals.map(goal => goal.skill));

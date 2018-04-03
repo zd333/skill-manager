@@ -72,14 +72,18 @@ export class ManageSkillsComponent implements OnInit, OnDestroy {
       streamId: this.addSkillForm.get('streamId').value
     })
       .subscribe(addedSkill => {
-        // TODO: push added skill
-        this.groupedSkills
-          .find(skillGroup => skillGroup.streamId === addedSkill.streamId)
-          .skills.push({
+        this.addSkillForm.reset();
+
+        let skillGroup = this.groupedSkills.find(skillGroup => skillGroup.streamId === addedSkill.streamId)
+        if (!skillGroup) {
+          // This is first skill in the stream, reload data to simplify everything
+          this.loadSkills();
+          return;
+        }
+          skillGroup.skills.push({
             _id: addedSkill._id,
             name: addedSkill.name
           });
-        this.addSkillForm.reset();
       }, error => {
         const errorObj = error.json();
         this.notify.error('Ошибка', errorObj.errmsg || errorObj.message || 'Не удалось добавить умение');

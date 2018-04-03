@@ -65,7 +65,8 @@ module.exports = app => {
       creatorId: request.session.user._id,
       creatorName: request.session.user.name,
       postedAt: Date.now(),
-      plannedFinishAt: plannedFinishAt.toDate()
+      plannedFinishAt: plannedFinishAt.toDate(),
+      comment: request.body.comment
     };
 
     // Get target user
