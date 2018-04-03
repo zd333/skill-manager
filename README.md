@@ -1,4 +1,4 @@
-# Steel Kiwi Dev Skill Manager
+# Dev Skill Manager
 
 ## Technologies stack
 
