@@ -2,7 +2,7 @@
 
 ## Technologies stack
 
-* AngularJS 2
+* Angular 2
 * NodeJS/Express
 * MongoDB/Mongoose
 * Docker/Docker Compose
