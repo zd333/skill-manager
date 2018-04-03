@@ -1,4 +1,4 @@
-# Dev Skill Manager
+# Skill Manager
 
 ## Technologies stack
 
